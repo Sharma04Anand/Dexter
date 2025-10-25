@@ -1,0 +1,108 @@
+Step 1: Install SSL/TLS Module
+# Install the SSL module
+sudo dnf install mod_ssl openssl -y
+
+Step 2: Create Directories for Applications
+# Create the root directory for Application A
+sudo mkdir -p /var/www/html/ayush.a.in/public_html
+
+# Create a simple landing page for Application A
+echo "<h1>Welcome to Application A (ayush.a.in) on Port 1016 (HTTPS)</h1>" | sudo tee /var/www/html/ayush.a.in/public_html/index.html
+
+# Create the root directory for Application B
+sudo mkdir -p /var/www/html/ayush.b.org/public_html
+
+# Create a simple landing page for Application B
+echo "<h1>Welcome to Application B (ayush.b.org) on Port 2010 (HTTPS)</h1>" | sudo tee /var/www/html/ayush.b.org/public_html/index.html
+
+
+Step 3: Generate SSL Certificates
+3.1: Generate Certificate for ayush.a.in
+# Create the private key and certificate in one go
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/pki/tls/private/ayush.a.in.key \
+    -out /etc/pki/tls/certs/ayush.a.in.crt
+
+3.2: Generate Certificate for ayush.b.org
+# Create the private key and certificate for Application B
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/pki/tls/private/ayush.b.org.key \
+    -out /etc/pki/tls/certs/ayush.b.org.crt
+
+
+Step 4: Configure Apache Virtual Hosts
+4.1: Open the Configuration File
+# Use your preferred editor (vi, nano, etc.)
+sudo vi /etc/httpd/conf.d/vhosts.conf
+
+4.2: Add Listening Ports
+# Listen on the default HTTPS port (443) and the two custom ports
+Listen 1016
+Listen 2010
+
+4.3: Add Virtual Host for Application A
+<VirtualHost *:1016>
+    # Server configuration
+    ServerName ayush.a.in
+    ServerAlias www.ayush.a.in
+    DocumentRoot /var/www/html/ayush.a.in/public_html
+
+    # SSL/TLS configuration
+    SSLEngine on
+    SSLCertificateFile /etc/pki/tls/certs/ayush.a.in.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/ayush.a.in.key
+
+    # Directory access permissions
+    <Directory /var/www/html/ayush.a.in/public_html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+
+4.4: Add Virtual Host for Application B
+<VirtualHost *:2010>
+    # Server configuration
+    ServerName ayush.b.org
+    ServerAlias www.ayush.b.org
+    DocumentRoot /var/www/html/ayush.b.org/public_html
+
+    # SSL/TLS configuration
+    SSLEngine on
+    SSLCertificateFile /etc/pki/tls/certs/ayush.b.org.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/ayush.b.org.key
+
+    # Directory access permissions
+    <Directory /var/www/html/ayush.b.org/public_html>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+
+Step 5: Cofiguring Firewall
+# Add port 1016 permanently
+sudo firewall-cmd --zone=public --add-port=1016/tcp --permanent
+
+# Add port 2010 permanently
+sudo firewall-cmd --zone=public --add-port=2010/tcp --permanent
+
+# Reload the firewall to apply changes
+sudo firewall-cmd --reload
+
+Step 6: Restart Apache
+# Test the httpd configuration file syntax
+sudo apachectl configtest
+
+# You should see: Syntax OK
+
+# Restart the Apache service to load the new Virtual Hosts
+sudo systemctl restart httpd
+
+# Check the status to ensure it's running
+sudo systemctl status httpd
+
+Step 7: Verification
+Open the applications on particular ports
+https://192.168.1.100:1016
+https://192.168.1.100:2010

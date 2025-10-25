@@ -1,0 +1,389 @@
+3. How to partition
+
+add storage to vm
+power off the vm
+go to storage settings
+create storage
+create vdi - preallocate
+create and choose
+lsblk
+fdisk /dev/sdb
+n
+p
+1
+2048
++1G
+p
+w
+lsblk
+mkfs -t ext4 /dev/sdb
+mkdir mountp
+mount /dev/sdb /mountp
+cd mountp
+
+##################################################################################################################################################################
+4.Mount PD
+
+systemctl stop udisks2.service
+lsblk
+mkdir mountp
+mount /dev/sdb mountp
+cd mountp
+unmount /dev/sdb
+
+##################################################################################################################################################################
+5. LVM
+
+add two hdds
+lvmdiskscan
+lsblk
+pvcreate /dev/sdb /dev/sdc
+vgcreate groupname /dev/sdb /dev/sdc
+pvs
+vgs
+lvcreate -L 2.5G -n name groupname
+mkfs -t xfc /dev/groupname/name
+mkdir mountp
+mount /dev/groupname/name /mountp
+
+##################################################################################################################################################################
+
+7. Reset Root Passwd
+
+reboot system and press e on grub
+type 
+rw init = /bin/bash :press ctrl+x
+passwd <password>
+#touch /.autorelabel
+#exec /sbin/init
+
+##################################################################################################################################################################
+10. Custom Service
+
+cd /usr/local/bin
+touch newservice.sh
+vi newservice.sh
+#!/bin/bash
+#Service Script
+while true; do 
+	echo "Service running" >> /var/log/newservice.log
+	sleep 10
+done
+:wq
+
+chmod +x newservice.sh
+vi newservice.service
+[Unit]
+Description = new service
+After = network.target
+
+[Service]
+Type = simple
+ExecStart = /usr/local/bin/newservice.sh
+Restart = always
+RestartSec = 5
+User = root
+
+[Install]
+WantedBy=multi-user.target
+:wq
+
+systemctl daemon-reload
+systemctl start newservice.service
+systemctl statys newservice.service
+tail -n 5 /var/log/newservice.log
+
+##################################################################################################################################################################
+12.NFS
+dnf install nfs-utils
+systemctl start nfs-server
+systemctl start rpcbind
+cd /home
+vi /etc/exports
+/home *(rw,sync)
+:wq
+chown Nobody:nobody /home
+chmod 777 /home
+systemctl restart nfs-server
+systemctl stop firewalld
+iptables -F
+ipconfig
+
+Client
+mkdir mountpoint
+mount -t nfs <ipserver>:/home /mountpoint
+cd mountpoint
+
+##################################################################################################################################################################
+16. DHCP Server
+hostnamectl hostname dhcpserver
+/bin/bash
+dnf -y install kea
+/etc/kea
+ls
+cp kea-dhcp4.conf kea-dhcp4.conf.bak
+ls
+chown root:kea kea-dhcp4.conf
+chmod 777 kea-dhcp.conf
+ls -l kea-dhcp4.conf
+vi kea-dhcp4.conf
+	line 34 - "add the adapter"
+	line 154- dns ip (any inside the network but outside the dhcp pool)
+	line 162, 171 - add google.com
+	line 237 - router ip
+	line 238 - add hostname - dhcpserver
+	line 300 - network with subnet
+	line 307 - dhcp pool
+	line 339 - router ip
+from 340 - 435 - comment every string in purple. After options, before loggers
+systemctl stop firewalld
+iptables -F
+systemctl enable --new kea-dhcp4.service
+systemctl status kea-dhcp4.service
+
+##################################################################################################################################################################
+26. WEB SERVER
+sudo dnf update -y
+sudo dnf install httpd -y
+sudo systemctl enable --now httpd
+sudo systemctl stop firewalld
+iptables -F
+sudo systemctl status httpd
+cd /etc/httpd/conf
+vi httpd.conf
+Add listening port
+cd /var/www/html
+Add a webpage
+
+##################################################################################################################################################################
+
+30.1. Mail Server (Sendmail)
+1. Set hostname of the system as subdomain
+	#hostnamectl hostname sdomain.in
+
+2. Check IP and note it
+	#ip a
+
+3. Install SMTP server (sendmail)
+	#dnf install epel-release -y
+	#dnf install sendmail sendmail-cf -y
+
+4. Configure sendmail
+	#vi /etc/mail/sendmail.mc (mc:macroconfifure file, this file will be used to generate actual configuration file later)
+	Line 121: add "dnl" at begining of the line, doing this will comment that line
+
+5. Generate main configuration file (sendmail.cf)
+	#m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
+
+6. Start sendmail service
+	#systemctl restart sendmail.service
+	#netstat -pant : to check if sendmail is running, and if it is running, it is running on port 25 or not.
+
+7. Configure host file (for non-dns configuration: if you dont want to setup a dns server then do the following. May not always work)
+	#vi /etc/hosts
+	add both system's ip address at the end
+	192.168.__.__	sdomain.in
+	192.168.__.__	rdomain.in
+
+8. Disable Firewall
+	#systemctl stop firewalld
+	#iptables -F
+
+9. Add users for senders and recievers
+	#useradd sdomain
+	#password sdomain
+
+10. The mail is stored in a file with same name as the user in
+	#cd /var/spool/mail
+	#ls
+	#sdomain
+
+11. Install MUA(Mail User Agent)
+	#dnf install s-nail -y 
+
+12. Send the mail
+	#mailx -s "Subject" sdomain@sdomain.in [-s: subject]
+	--> mail body
+	--> yes
+	--> Ctrl + D
+
+13. DO THE SAME CONFIGURATION FOR rdomain.in IN SECOND SYSTEM
+
+14. Configure DNS
+	for sdomain --> mail.sdomain.in --> 192.168.__.__
+	for rdomain --> mail.rdomain.in --> 192.168.__.__
+
+15. Change to SuperUser
+	#sudo su -
+	#dnf -y install  bind
+	#vi /etc/named.conf
+	--> 
+		zone "sdomain.in" IN {
+			type master;
+			file "sdomain.in-zone";
+		};
+		zone "rdomain.in" IN {
+			type master;
+			file "rdomain.in-zone";
+		};
+16. #vi /var/named/sdomain.in-zone
+	--> 
+		sdomain.in	3600	IN	SOA		sdomain.in	root.sdomain.in (
+			1;
+			1D;
+			1H;
+			1W;
+			1H;
+		)
+		sdomain.in.		3600	IN	NS	ns.sdomain.in.
+		ns.sdomain.in.	3600	IN	A	192.168.__.__	(DNS IP)
+		sdomain.in.		3600	IN	MX	1	mail.sdomain.in
+		mail.sdomain.in	3600	IN	A	192.168.__.__	(sdomain IP)
+	:wq
+17. Copy sdomain to rdomain to configure second zone
+	#cp sdomain.in-zone rdomain.in-zone
+
+18. Edit domain
+	#vi rdomain.in-zone
+	-->
+		replace sdomain with  rdomain and place proper ip 
+		%s/sdomain/rdomain -> to replace "sdomain" with "rdomain"
+		!wq
+19. Check the integrity of files:
+	#named-checkzone rdomain rdomain.in-zone
+	#named-checkzone sdomain sdomain.in-zone
+
+
+20. Change the owner of the file
+	#chown named:named rdomain.in-zone sdomain.in-zone
+21. Change the permission of the file
+	#chmod 777 rdomain.in-zone sdomain.in-zone
+
+22. Check the connectivity from the DNS through respective machines. sdomain from machine 1 and rdomain from machine 2
+	#nslookup
+	>server <server ip>
+	>ser type=MX
+	>sdomain
+	--> mail.sdomain.in
+	>rdomain
+
+23. Restart sendmail on both machines
+	#systemctl restart sendmail
+
+##################################################################################################################################################################
+30.2. Mail Server (Postfix)
+1. Remove Sendmail
+	#dnf remove sendmail sendmail-cf -y
+
+2. Set hostname
+	#hostnamectl hostname mail.sdomain.in
+
+3. Install Postfix
+	#dnf install postfix -y
+
+4. Configure postfix
+	#vi /etc/postfix/main.cf
+	-->
+		Line 98: uncomment and modify
+			myhostname=mail.sdomain.in
+		Line 106: uncomment and modify
+			mydomain=sdomain.in
+		Line 122: uncomment
+			myorigin=$mydomain
+		Line 136: uncomment
+			inet_interfaces=ALL
+		Line 139: comment
+
+		Line 141:
+			inet_protocols=ipv4
+		Line 187: comment
+
+		Line 188: uncomment
+			mydestination=$hostname,localhost.mydo...
+		Line 290: modify
+			mynetworks=192.168.0.0\22,127.0.0.0\8
+		Line 446: comment
+
+		Line 447: uncomment
+			home_mailbox=Maildir/
+
+5. Restart Postfix Service
+	#systemctl restart postfix
+
+6. Check statistics
+	#netstat -pant
+
+7. Stop firewall
+	#systemctl stop firewalld
+	#iptables -F
+
+8. Send mail
+	#mailx -s "Subject" rdomain@rdomain.in
+	--> draft message
+	--> Ctrl + D
+
+9. Check folder
+	#cd Maildir/new
+
+##################################################################################################################################################################
+
+36. Squid Proxy
+	1. Install Squid
+			#dnf install squid* -y
+	2. Enable the service	
+			#systemctl enable --now squid
+			#systemctl status squid
+	3. Disable Firewall
+			#systemctl disable firewalld
+			#iptables -F 
+	4. Configure squid settings
+			#vi /etc/squid/squid.conf
+				-->
+					Line 53: add
+						acl <name of acl> src <network id of server/subnet>
+					Line 53: add
+						http_access allow <name of acl in line 53>
+	5. In Client machine	
+		#vi /etc/profile.d/proxyserver.sh
+			-->
+				#Define the variables
+				PROXY_URL=<ip of the server>:3128
+				HTTP_PROXY=$PROXY_URL
+				HTTPS_PROXY=$PROXY_URL
+				FTP_PROXY=$PROXY_URL
+				http_proxy=$PROXY_URL
+				https_proxy=$PROXY_URL
+				ftp_proxy=$PROXY_URL
+	6. Export all the variables into sh file
+		#export HTTP_PROXY HTTPS_PROXY FTP_PROXY http_proxy https_proxy ftp_proxy
+	
+	7. Load that sh file into the shell
+		#source /etc/profile.d/proxyserver.sh  #source means executing the shell and make it systemwide available.
+
+	8. Restart the squid service in the server
+		#systemctl restart squid
+	
+	9. On client, try to access google.com
+		#wget www.google.com
+	
+	10. Check the logs if the site was accessed
+		#cat /var/log/squid/access.log 
+
+	11. Add the acl to squid server
+		#vi /etc/squid/squid.conf 
+			-->
+				Line 49: add
+					acl blocksites dstdomain www.google.com www.netflix.com www.facebook.com
+				Line 50: add
+					http access deny blocksites
+	
+	12. Now try to access the sites and check the log
+		#wget www.google.com
+		#wget www.netflix.com
+		#tail -f -n 5 /var/log/squid/access.log
+
+
+
+
+
+
