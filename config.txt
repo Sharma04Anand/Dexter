@@ -21,7 +21,7 @@ mkdir mountp
 mount /dev/sdb /mountp
 cd mountp
 
-##################################################################################################################################################################
+######################################
 4.Mount PD
 
 systemctl stop udisks2.service
@@ -31,7 +31,7 @@ mount /dev/sdb mountp
 cd mountp
 unmount /dev/sdb
 
-##################################################################################################################################################################
+######################################
 5. LVM
 
 add two hdds
@@ -46,7 +46,7 @@ mkfs -t xfc /dev/groupname/name
 mkdir mountp
 mount /dev/groupname/name /mountp
 
-##################################################################################################################################################################
+########################################
 
 7. Reset Root Passwd
 
@@ -57,7 +57,7 @@ passwd <password>
 #touch /.autorelabel
 #exec /sbin/init
 
-##################################################################################################################################################################
+#########################################
 10. Custom Service
 
 cd /usr/local/bin
@@ -93,28 +93,89 @@ systemctl start newservice.service
 systemctl statys newservice.service
 tail -n 5 /var/log/newservice.log
 
-##################################################################################################################################################################
-12.NFS
-dnf install nfs-utils
-systemctl start nfs-server
-systemctl start rpcbind
-cd /home
-vi /etc/exports
-/home *(rw,sync)
-:wq
-chown Nobody:nobody /home
-chmod 777 /home
-systemctl restart nfs-server
-systemctl stop firewalld
-iptables -F
-ipconfig
+###########################################
+11. NIS: Network Information Service
+CentOS 8
+(server)
+1. Install NFS
+	#dnf install ypserv rpcbind
+2. Start NIS and other related service
+	#ssytemctl start ypserv
+	#systemctl start rpcbind
+3. Configure NIS
+	#ypdomainname <name of domain>
+Open sysconfig network file so it starts automatically on boot
+	#gedit /etc/sysconfig/network	
+	--> #Created by anaconda
+		NISDomain=<name of domain>
+	 <save and close>
+4. Initialize NIS server
+	#cd /var/vp
+	#	/usr/lib64/yp/ypiniy -m
+		-- y for yes
+5. Create Users
+	#useradd <user>
+	#passwd <user>
+6. Rebuild NIS database
+	#cd /var/yp
+	#make  : to update the db
+7. Restart the service
+	#systemctl restart ypserv
+8. Stop Firewall
+	#systemctl stop firewalld
+	#iptables -F
+9. Check ip of NIS server
+	#ipconfig
+(client)
+change network adapter to briged adapter
+1. install client packages
+	#dnf install ypbind rpcnbind
+2. Start the services of NIS client
+	#systemctl start ypbind
+	#systemctl start rpcbind
+3. Setup the NIS domain
+	#ypdomainname <domain name>
+	#gedit /etc/sysconfig/network
+	NISDOMAIN=<domain name>
+4. Configure to connect to NIS server
+	#gedit /etc/yp.conf
+	--> 
+		domain <domain name> nis-server <server-ip>
+5. Use NIS authentication for client
+	#gedit /etc/nsswitch.conf
+		passwd:	files nis
+		shadow: files nis
+		group: files nis
+6. Stop Firewall
+	#systemctl stop firewalld
+	#iptables -F
+7. Restart NIS Service
+	#systemctl restart ypbind
+8. Client will download username and hashed passwords
+	#getebt passwd
+
+###########################################
+12.NFS : Network File System
+#dnf install nfs-utils
+#systemctl start nfs-server
+#systemctl start rpcbind
+#cd /home
+#vi /etc/exports
+	/home *(rw,sync)
+	:wq
+#chown Nobody:nobody /home
+#chmod 777 /home
+#systemctl restart nfs-server
+#systemctl stop firewalld
+#iptables -F
+#ipconfig
 
 Client
-mkdir mountpoint
-mount -t nfs <ipserver>:/home /mountpoint
-cd mountpoint
+#mkdir mountpoint
+#mount -t nfs <ipserver>:/home /mountpoint
+#cd mountpoint
 
-##################################################################################################################################################################
+###########################################
 16. DHCP Server
 hostnamectl hostname dhcpserver
 /bin/bash
@@ -141,7 +202,137 @@ iptables -F
 systemctl enable --new kea-dhcp4.service
 systemctl status kea-dhcp4.service
 
-##################################################################################################################################################################
+
+###########################################
+19. Domain Name System: 
+#dnf install bind -y
+#ipconfig
+#vi /etc/named.conf
+	Line 11: listen port 53 { <server ip> ; };
+	Line 19: allow-query{ any; };
+	:wq
+named-checkconf /etc/named.conf
+systemctl start named.service
+timedatectl set-ntp false
+timedatectl set-time "HH:MM:SS"
+
+systemctl stop firewalld
+iptables -F
+
+netstat -puna
+On windows:
+>nslookup
+>server <server ip>
+__________________________________________________
+20. Forward DNS
+#vi /etc/named.conf
+--> at the end
+	zone "site.in" IN {
+	type master;
+	file "site.in-zone"; 
+}
+named-checkconf /etc/named.conf
+
+#cd /var/named
+#vi site.in-zone
+; Domain label	TTL	CLASS	RR	Type	RRValue
+site.in.	3600	IN	SOA	site.in	sub.site.in	(
+	101;
+	10H;
+	1H;
+	1W;
+	3600;
+)
+site.in. 		3600	IN	NS	ns.site.in.
+ns.site.in. 	3600	IN	A	<Server IP>
+www.site.in.	3600	IN	A	<Provided IP>
+mail.site.in.	3600	IN	A	<Provided IP>
+:wq
+#named-checkzone site.in	site.in-zone
+#chown nobody:nobody site.in-zone
+#systemctl restart named.service
+
+___________________________________________________
+21. Reverse DNS
+
+
+
+###########################################
+22. Samba Server SMB
+1. Install smb
+	#dnf install samba samba-client samba-common -y
+2. Enable and start
+	#systemctl start smb nmb --now
+3. Create shareing directories
+	#mkdir -p /srv/samba/share
+	#mkdir -p /srv/samba/test
+4. Change permission and owner
+	#chown nobody:nobody /srv/samba/test
+	#chmod 777 /srv/samba/test
+5. Take backup and Configure Samba
+	#cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
+	#vi /etc/samba/smb.conf
+	--> <At the end of the file, add>
+		[PublicShare]
+			comment = My shared folder
+			path = /srv/samba/test
+			browsable = yes
+			writable = yes
+			guest ok = yes
+			read only = no
+			valid users = player1
+		[global]
+			workgroup = WORKGROUP
+			server string = Samba server %v
+			netbios name = samba
+			security = user
+			map to guest = Bad user
+			dns proxy = no
+6. Restart the server
+	#systemctl restart smb nmb
+7. Create Samba user it not already
+	#smbpasswd -a player1
+	#smbpasswd -e player1
+8. Disable Firewall
+	#systemctl stop firewalld
+	#iptables -F
+9. Stop SELinux
+	#getenforce
+	#setenforce 0
+	or
+	#vi /etc/selinux/config
+	--> #SELINUX = enforcing (comment)
+		SELINUX = disabled (add)
+		reboot
+10. In windows
+	open cmd
+	> net use \\<smb server ip>\ /user:player1
+	>password
+	Open Run
+	\\<ip of server>\
+	<folder will open>
+	10.1 : To add as a network folder on windows
+			Right click on This PC on navigation pane
+			Add a Network Location > next
+			Choose Custom > Next
+			<ip of server>\PublicShare
+			Next > Finish
+	10.2 : To permanently mount as a drive
+			cmd
+			>net use <drive letter>:\\<ip of server>\<share-name> /PERSISTENT:YES
+11: In Linux
+	In terminal:
+	#install samba-client samba-common -y
+	#smbclient //<serverip>/PublicShare -U player1
+	password
+	ls
+	11.1 to maount the shared folder
+		#dnf install cifs-utils -y
+		#mount -t cifs //<ip of server>/PublicShare test -o username=player1,password=p1
+	
+	
+
+###########################################
 26. WEB SERVER
 sudo dnf update -y
 sudo dnf install httpd -y
@@ -155,7 +346,7 @@ Add listening port
 cd /var/www/html
 Add a webpage
 
-##################################################################################################################################################################
+############################################
 
 30.1. Mail Server (Sendmail)
 1. Set hostname of the system as subdomain
@@ -270,7 +461,7 @@ Add a webpage
 23. Restart sendmail on both machines
 	#systemctl restart sendmail
 
-##################################################################################################################################################################
+######################################################
 30.2. Mail Server (Postfix)
 1. Remove Sendmail
 	#dnf remove sendmail sendmail-cf -y
@@ -325,8 +516,35 @@ Add a webpage
 9. Check folder
 	#cd Maildir/new
 
-##################################################################################################################################################################
-
+################################################
+34. Custom Service
+	# cd
+	# vi demo.sh
+	--> #!/bin/bash
+		while true;
+		do
+			echo "Message " >> /var/log/demo.log
+			sleep 600
+		done
+		:wq
+	#chmod +x demo.sh
+	# vi /etc/systemd/system/demo.service
+	-->
+		[Unit]
+		Description = "Custom Service"
+		After = network.target
+		[Service]
+		ExecStart = /root/demo.sh
+		Restart = always
+		User = root
+		[Install]
+		WantedBy=multi-user.target
+	:wq
+	#systemctl daemon-reload
+	#systemctl start demo.service
+	#systemctl status demo.service
+	#tail -n 5 /var/log/demo.log
+################################################
 36. Squid Proxy
 	1. Install Squid
 			#dnf install squid* -y
@@ -381,6 +599,7 @@ Add a webpage
 		#wget www.google.com
 		#wget www.netflix.com
 		#tail -f -n 5 /var/log/squid/access.log
+
 
 
 
