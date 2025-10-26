@@ -1,0 +1,129 @@
+Virtual Hosting Setup
+the directory path /var/www/html/atharv.a.in/public_html/index.html.
+
+--------------------------------------------
+Step 1: Install Apache Web Server
+--------------------------------------------
+sudo dnf install httpd -y
+sudo systemctl enable httpd
+sudo systemctl start httpd
+sudo systemctl status httpd
+
+--------------------------------------------
+Step 2: Create Directory Structure for Each Host
+--------------------------------------------
+sudo mkdir -p /var/www/html/atharv.a.in/public_html
+sudo mkdir -p /var/www/html/test.a.in/public_html
+
+--------------------------------------------
+Step 3: Set Permissions
+--------------------------------------------
+sudo chown -R $USER:$USER /var/www/html/atharv.a.in/public_html
+sudo chown -R $USER:$USER /var/www/html/test.a.in/public_html
+sudo chmod -R 755 /var/www/html
+
+--------------------------------------------
+Step 4: Create Landing Pages (index.html)
+--------------------------------------------
+
+For atharv.a.in:
+sudo nano /var/www/html/atharv.a.in/public_html/index.html
+
+Add the following HTML content:
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Atharv.a.in</title>
+</head>
+<body style="text-align:center; margin-top:100px;">
+    <h1>Welcome to Atharv.a.in 🎉</h1>
+    <p>Your first virtual host is working perfectly.</p>
+</body>
+</html>
+
+For test.a.in:
+sudo nano /var/www/html/test.a.in/public_html/index.html
+
+Add the following HTML content:
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Test.a.in</title>
+</head>
+<body style="text-align:center; margin-top:100px;">
+    <h1>Welcome to Test.a.in 🚀</h1>
+    <p>This is your second virtual host!</p>
+</body>
+</html>
+
+--------------------------------------------
+Step 5: Create Virtual Host Configuration Files
+--------------------------------------------
+Apache virtual host files are located at /etc/httpd/conf.d/
+
+For atharv.a.in:
+sudo nano /etc/httpd/conf.d/atharv.a.in.conf
+
+<VirtualHost *:80>
+    ServerAdmin admin@atharv.a.in
+    ServerName atharv.a.in
+    ServerAlias www.atharv.a.in
+    DocumentRoot /var/www/html/atharv.a.in/public_html
+    ErrorLog /var/log/httpd/atharv.a.in-error.log
+    CustomLog /var/log/httpd/atharv.a.in-access.log combined
+</VirtualHost>
+
+For test.a.in:
+sudo nano /etc/httpd/conf.d/test.a.in.conf
+
+<VirtualHost *:80>
+    ServerAdmin admin@test.a.in
+    ServerName test.a.in
+    ServerAlias www.test.a.in
+    DocumentRoot /var/www/html/test.a.in/public_html
+    ErrorLog /var/log/httpd/test.a.in-error.log
+    CustomLog /var/log/httpd/test.a.in-access.log combined
+</VirtualHost>
+
+--------------------------------------------
+Step 6: Verify Apache Configuration
+--------------------------------------------
+sudo apachectl configtest
+# Expected Output: Syntax OK
+
+--------------------------------------------
+Step 7: Restart Apache
+--------------------------------------------
+sudo systemctl restart httpd
+
+--------------------------------------------
+Step 8: Edit /etc/hosts for Local Testing
+--------------------------------------------
+sudo nano /etc/hosts
+
+Add the following lines:
+127.0.0.1   atharv.a.in
+127.0.0.1   test.a.in
+
+--------------------------------------------
+Step 9: Test in Browser
+--------------------------------------------
+Open:
+http://atharv.a.in
+http://test.a.in
+
+--------------------------------------------
+Step 10: Verify Active Virtual Hosts
+--------------------------------------------
+sudo httpd -S
+
+--------------------------------------------
+Summary
+--------------------------------------------
+Website: atharv.a.in
+DocumentRoot: /var/www/html/atharv.a.in/public_html
+Config File: /etc/httpd/conf.d/atharv.a.in.conf
+
+Website: test.a.in
+DocumentRoot: /var/www/html/test.a.in/public_html
+Config File: /etc/httpd/conf.d/test.a.in.conf
