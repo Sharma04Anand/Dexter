@@ -1,0 +1,1121 @@
+player1@dhcpserver:~$ hostnamectl hostname rdomain.in
+player1@dhcpserver:~$ /bin/bash
+player1@rdomain:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:0f:d1:13 brd ff:ff:ff:ff:ff:ff
+    altname enx0800270fd113
+    inet 1.1.1.1/24 brd 1.1.1.255 scope global noprefixroute enp0s3
+       valid_lft forever preferred_lft forever
+    inet6 fe80::3c42:feee:9ef0:7ae9/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+player1@rdomain:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:0f:d1:13 brd ff:ff:ff:ff:ff:ff
+    altname enx0800270fd113
+    inet 192.168.2.165/22 brd 192.168.3.255 scope global dynamic noprefixroute enp0s3
+       valid_lft 594sec preferred_lft 594sec
+    inet6 fe80::3c42:feee:9ef0:7ae9/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+player1@rdomain:~$ dnf -y install epel-release
+Error: This command has to be run with superuser privileges (under the root user on most systems).
+player1@rdomain:~$ sudo su -
+[sudo] password for player1: 
+Last login: Tue Oct  7 21:26:24 IST 2025 on pts/0
+root@rdomain:~# dnf -y install epel-release
+CentOS Stream 10 - BaseOS                                                                                                                                             12 kB/s | 4.5 kB     00:00    
+CentOS Stream 10 - AppStream                                                                                                                                          11 kB/s | 4.6 kB     00:00    
+CentOS Stream 10 - Extras packages                                                                                                                                    67 kB/s | 6.3 kB     00:00    
+Package epel-release-10-6.el10_0.noarch is already installed.
+Dependencies resolved.
+Nothing to do.
+Complete!
+root@rdomain:~# dnf install update -y
+Last metadata expiration check: 0:00:24 ago on Wednesday 08 October 2025 03:07:31 PM.
+No match for argument: update
+Error: Unable to find a match: update
+root@rdomain:~# dnf update -y
+Last metadata expiration check: 0:00:29 ago on Wednesday 08 October 2025 03:07:31 PM.
+Dependencies resolved.
+=====================================================================================================================================================================================================
+ Package                                                  Architecture                       Version                                                 Repository                                 Size
+=====================================================================================================================================================================================================
+Installing:
+ kernel                                                   x86_64                             6.12.0-136.el10                                         baseos                                    152 k
+Upgrading:
+ crypto-policies                                          noarch                             20250905-2.gitc7eb7b2.el10                              baseos                                     98 k
+ crypto-policies-scripts                                  noarch                             20250905-2.gitc7eb7b2.el10                              baseos                                    132 k
+ freerdp-libs                                             x86_64                             2:3.10.3-5.el10                                         appstream                                 1.5 M
+ glibc                                                    x86_64                             2.39-69.el10                                            baseos                                    2.1 M
+ glibc-all-langpacks                                      x86_64                             2.39-69.el10                                            baseos                                     18 M
+ glibc-common                                             x86_64                             2.39-69.el10                                            baseos                                    340 k
+ glibc-gconv-extra                                        x86_64                             2.39-69.el10                                            baseos                                    1.7 M
+ google-chrome-stable                                     x86_64                             141.0.7390.65-1                                         google-chrome                             118 M
+ kernel-modules-extra-matched                             x86_64                             6.12.0-136.el10                                         baseos                                    152 k
+ kernel-tools                                             x86_64                             6.12.0-136.el10                                         baseos                                    694 k
+ kernel-tools-libs                                        x86_64                             6.12.0-136.el10                                         baseos                                    168 k
+ libinput                                                 x86_64                             1.26.1-5.el10                                           appstream                                 224 k
+ libipa_hbac                                              x86_64                             2.11.1-3.el10                                           baseos                                     34 k
+ libldb                                                   x86_64                             4.23.0-101.el10                                         baseos                                    186 k
+ libnetapi                                                x86_64                             4.23.0-101.el10                                         baseos                                    144 k
+ libnfsidmap                                              x86_64                             1:2.8.3-2.el10                                          baseos                                     63 k
+ libsmbclient                                             x86_64                             4.23.0-101.el10                                         baseos                                     76 k
+ libssh                                                   x86_64                             0.11.1-3.el10                                           baseos                                    233 k
+ libssh-config                                            noarch                             0.11.1-3.el10                                           baseos                                    8.4 k
+ libsss_certmap                                           x86_64                             2.11.1-3.el10                                           baseos                                     81 k
+ libsss_idmap                                             x86_64                             2.11.1-3.el10                                           baseos                                     41 k
+ libsss_nss_idmap                                         x86_64                             2.11.1-3.el10                                           baseos                                     44 k
+ libsss_sudo                                              x86_64                             2.11.1-3.el10                                           baseos                                     33 k
+ libtdb                                                   x86_64                             1.4.14-100.el10                                         baseos                                     54 k
+ libtevent                                                x86_64                             0.17.1-100.el10                                         baseos                                     51 k
+ libwbclient                                              x86_64                             4.23.0-101.el10                                         baseos                                     44 k
+ libwinpr                                                 x86_64                             2:3.10.3-5.el10                                         appstream                                 398 k
+ nfs-utils                                                x86_64                             1:2.8.3-2.el10                                          baseos                                    485 k
+ papers                                                   x86_64                             47.0-8.git5de8d26c.el10                                 appstream                                 4.0 M
+ papers-libs                                              x86_64                             47.0-8.git5de8d26c.el10                                 appstream                                 256 k
+ papers-nautilus                                          x86_64                             47.0-8.git5de8d26c.el10                                 appstream                                  14 k
+ papers-previewer                                         x86_64                             47.0-8.git5de8d26c.el10                                 appstream                                  28 k
+ papers-thumbnailer                                       x86_64                             47.0-8.git5de8d26c.el10                                 appstream                                  17 k
+ python3-perf                                             x86_64                             6.12.0-136.el10                                         appstream                                 1.5 M
+ samba                                                    x86_64                             4.23.0-101.el10                                         baseos                                    874 k
+ samba-client                                             x86_64                             4.23.0-101.el10                                         appstream                                 752 k
+ samba-client-libs                                        x86_64                             4.23.0-101.el10                                         baseos                                    5.5 M
+ samba-common                                             noarch                             4.23.0-101.el10                                         baseos                                    176 k
+ samba-common-libs                                        x86_64                             4.23.0-101.el10                                         baseos                                    104 k
+ samba-common-tools                                       x86_64                             4.23.0-101.el10                                         baseos                                    490 k
+ samba-dcerpc                                             x86_64                             4.23.0-101.el10                                         baseos                                    720 k
+ samba-ldb-ldap-modules                                   x86_64                             4.23.0-101.el10                                         baseos                                     35 k
+ samba-libs                                               x86_64                             4.23.0-101.el10                                         baseos                                    127 k
+ sos                                                      noarch                             4.10.0-4.el10                                           baseos                                    1.4 M
+ sssd                                                     x86_64                             2.11.1-3.el10                                           baseos                                     25 k
+ sssd-ad                                                  x86_64                             2.11.1-3.el10                                           baseos                                    194 k
+ sssd-client                                              x86_64                             2.11.1-3.el10                                           baseos                                    153 k
+ sssd-common                                              x86_64                             2.11.1-3.el10                                           baseos                                    1.5 M
+ sssd-common-pac                                          x86_64                             2.11.1-3.el10                                           baseos                                     89 k
+ sssd-ipa                                                 x86_64                             2.11.1-3.el10                                           baseos                                    274 k
+ sssd-kcm                                                 x86_64                             2.11.1-3.el10                                           baseos                                    103 k
+ sssd-krb5                                                x86_64                             2.11.1-3.el10                                           baseos                                     62 k
+ sssd-krb5-common                                         x86_64                             2.11.1-3.el10                                           baseos                                     93 k
+ sssd-ldap                                                x86_64                             2.11.1-3.el10                                           baseos                                    132 k
+ sssd-nfs-idmap                                           x86_64                             2.11.1-3.el10                                           baseos                                     35 k
+ sssd-proxy                                               x86_64                             2.11.1-3.el10                                           baseos                                     70 k
+Installing dependencies:
+ kernel-core                                              x86_64                             6.12.0-136.el10                                         baseos                                     17 M
+ kernel-modules                                           x86_64                             6.12.0-136.el10                                         baseos                                     39 M
+ kernel-modules-core                                      x86_64                             6.12.0-136.el10                                         baseos                                     28 M
+ kernel-modules-extra                                     x86_64                             6.12.0-136.el10                                         baseos                                    1.6 M
+
+Transaction Summary
+=====================================================================================================================================================================================================
+Install   5 Packages
+Upgrade  56 Packages
+
+Total download size: 250 M
+Downloading Packages:
+(1/61): kernel-6.12.0-136.el10.x86_64.rpm                                                                                                                            465 kB/s | 152 kB     00:00    
+(2/61): kernel-core-6.12.0-136.el10.x86_64.rpm                                                                                                                        13 MB/s |  17 MB     00:01    
+(3/61): kernel-modules-extra-6.12.0-136.el10.x86_64.rpm                                                                                                              6.0 MB/s | 1.6 MB     00:00    
+(4/61): crypto-policies-20250905-2.gitc7eb7b2.el10.noarch.rpm                                                                                                        569 kB/s |  98 kB     00:00    
+(5/61): crypto-policies-scripts-20250905-2.gitc7eb7b2.el10.noarch.rpm                                                                                                1.9 MB/s | 132 kB     00:00    
+(6/61): glibc-2.39-69.el10.x86_64.rpm                                                                                                                                9.8 MB/s | 2.1 MB     00:00    
+(7/61): kernel-modules-core-6.12.0-136.el10.x86_64.rpm                                                                                                                15 MB/s |  28 MB     00:01    
+(8/61): glibc-common-2.39-69.el10.x86_64.rpm                                                                                                                         2.3 MB/s | 340 kB     00:00    
+(9/61): glibc-gconv-extra-2.39-69.el10.x86_64.rpm                                                                                                                     11 MB/s | 1.7 MB     00:00    
+(10/61): kernel-modules-extra-matched-6.12.0-136.el10.x86_64.rpm                                                                                                     675 kB/s | 152 kB     00:00    
+(11/61): kernel-tools-6.12.0-136.el10.x86_64.rpm                                                                                                                     8.2 MB/s | 694 kB     00:00    
+(12/61): kernel-tools-libs-6.12.0-136.el10.x86_64.rpm                                                                                                                2.6 MB/s | 168 kB     00:00    
+(13/61): libipa_hbac-2.11.1-3.el10.x86_64.rpm                                                                                                                        572 kB/s |  34 kB     00:00    
+(14/61): glibc-all-langpacks-2.39-69.el10.x86_64.rpm                                                                                                                  20 MB/s |  18 MB     00:00    
+(15/61): libldb-4.23.0-101.el10.x86_64.rpm                                                                                                                           2.5 MB/s | 186 kB     00:00    
+(16/61): kernel-modules-6.12.0-136.el10.x86_64.rpm                                                                                                                    12 MB/s |  39 MB     00:03    
+(17/61): libnetapi-4.23.0-101.el10.x86_64.rpm                                                                                                                        928 kB/s | 144 kB     00:00    
+(18/61): libnfsidmap-2.8.3-2.el10.x86_64.rpm                                                                                                                         412 kB/s |  63 kB     00:00    
+(19/61): libsmbclient-4.23.0-101.el10.x86_64.rpm                                                                                                                     1.2 MB/s |  76 kB     00:00    
+(20/61): libssh-config-0.11.1-3.el10.noarch.rpm                                                                                                                      123 kB/s | 8.4 kB     00:00    
+(21/61): libssh-0.11.1-3.el10.x86_64.rpm                                                                                                                             3.2 MB/s | 233 kB     00:00    
+(22/61): libsss_certmap-2.11.1-3.el10.x86_64.rpm                                                                                                                     1.3 MB/s |  81 kB     00:00    
+(23/61): libsss_idmap-2.11.1-3.el10.x86_64.rpm                                                                                                                       671 kB/s |  41 kB     00:00    
+(24/61): libsss_nss_idmap-2.11.1-3.el10.x86_64.rpm                                                                                                                   654 kB/s |  44 kB     00:00    
+(25/61): libsss_sudo-2.11.1-3.el10.x86_64.rpm                                                                                                                        577 kB/s |  33 kB     00:00    
+(26/61): libtdb-1.4.14-100.el10.x86_64.rpm                                                                                                                           914 kB/s |  54 kB     00:00    
+(27/61): libtevent-0.17.1-100.el10.x86_64.rpm                                                                                                                        748 kB/s |  51 kB     00:00    
+(28/61): libwbclient-4.23.0-101.el10.x86_64.rpm                                                                                                                      756 kB/s |  44 kB     00:00    
+(29/61): nfs-utils-2.8.3-2.el10.x86_64.rpm                                                                                                                           6.2 MB/s | 485 kB     00:00    
+(30/61): samba-common-4.23.0-101.el10.noarch.rpm                                                                                                                     1.1 MB/s | 176 kB     00:00    
+(31/61): samba-common-libs-4.23.0-101.el10.x86_64.rpm                                                                                                                1.6 MB/s | 104 kB     00:00    
+(32/61): samba-4.23.0-101.el10.x86_64.rpm                                                                                                                            2.5 MB/s | 874 kB     00:00    
+(33/61): samba-client-libs-4.23.0-101.el10.x86_64.rpm                                                                                                                 12 MB/s | 5.5 MB     00:00    
+(34/61): samba-dcerpc-4.23.0-101.el10.x86_64.rpm                                                                                                                     5.4 MB/s | 720 kB     00:00    
+(35/61): samba-common-tools-4.23.0-101.el10.x86_64.rpm                                                                                                               2.3 MB/s | 490 kB     00:00    
+(36/61): samba-ldb-ldap-modules-4.23.0-101.el10.x86_64.rpm                                                                                                           619 kB/s |  35 kB     00:00    
+(37/61): samba-libs-4.23.0-101.el10.x86_64.rpm                                                                                                                       1.6 MB/s | 127 kB     00:00    
+(38/61): sssd-2.11.1-3.el10.x86_64.rpm                                                                                                                               420 kB/s |  25 kB     00:00    
+(39/61): sssd-client-2.11.1-3.el10.x86_64.rpm                                                                                                                        2.4 MB/s | 153 kB     00:00    
+(40/61): sssd-ad-2.11.1-3.el10.x86_64.rpm                                                                                                                            1.2 MB/s | 194 kB     00:00    
+(41/61): sssd-common-pac-2.11.1-3.el10.x86_64.rpm                                                                                                                    1.0 MB/s |  89 kB     00:00    
+(42/61): sssd-common-2.11.1-3.el10.x86_64.rpm                                                                                                                        8.0 MB/s | 1.5 MB     00:00    
+(43/61): sssd-kcm-2.11.1-3.el10.x86_64.rpm                                                                                                                           1.7 MB/s | 103 kB     00:00    
+(44/61): sssd-ipa-2.11.1-3.el10.x86_64.rpm                                                                                                                           2.0 MB/s | 274 kB     00:00    
+(45/61): sssd-krb5-2.11.1-3.el10.x86_64.rpm                                                                                                                          1.0 MB/s |  62 kB     00:00    
+(46/61): sssd-ldap-2.11.1-3.el10.x86_64.rpm                                                                                                                          2.1 MB/s | 132 kB     00:00    
+(47/61): sssd-krb5-common-2.11.1-3.el10.x86_64.rpm                                                                                                                   1.0 MB/s |  93 kB     00:00    
+(48/61): sssd-nfs-idmap-2.11.1-3.el10.x86_64.rpm                                                                                                                     612 kB/s |  35 kB     00:00    
+(49/61): sssd-proxy-2.11.1-3.el10.x86_64.rpm                                                                                                                         858 kB/s |  70 kB     00:00    
+(50/61): libinput-1.26.1-5.el10.x86_64.rpm                                                                                                                           280 kB/s | 224 kB     00:00    
+(51/61): sos-4.10.0-4.el10.noarch.rpm                                                                                                                                937 kB/s | 1.4 MB     00:01    
+(52/61): libwinpr-3.10.3-5.el10.x86_64.rpm                                                                                                                           585 kB/s | 398 kB     00:00    
+(53/61): papers-libs-47.0-8.git5de8d26c.el10.x86_64.rpm                                                                                                              664 kB/s | 256 kB     00:00    
+(54/61): papers-nautilus-47.0-8.git5de8d26c.el10.x86_64.rpm                                                                                                          104 kB/s |  14 kB     00:00    
+(55/61): papers-previewer-47.0-8.git5de8d26c.el10.x86_64.rpm                                                                                                         206 kB/s |  28 kB     00:00    
+(56/61): papers-thumbnailer-47.0-8.git5de8d26c.el10.x86_64.rpm                                                                                                       124 kB/s |  17 kB     00:00    
+(57/61): freerdp-libs-3.10.3-5.el10.x86_64.rpm                                                                                                                       461 kB/s | 1.5 MB     00:03    
+(58/61): python3-perf-6.12.0-136.el10.x86_64.rpm                                                                                                                     949 kB/s | 1.5 MB     00:01    
+(59/61): google-chrome-stable-141.0.7390.65-1.x86_64.rpm                                                                                                              38 MB/s | 118 MB     00:03    
+(60/61): samba-client-4.23.0-101.el10.x86_64.rpm                                                                                                                     161 kB/s | 752 kB     00:04    
+(61/61): papers-47.0-8.git5de8d26c.el10.x86_64.rpm                                                                                                                   279 kB/s | 4.0 MB     00:14    
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                                                                                 12 MB/s | 250 MB     00:20     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                                                                                                                             1/1 
+  Upgrading        : glibc-all-langpacks-2.39-69.el10.x86_64                                                                                                                                   1/117 
+  Upgrading        : glibc-common-2.39-69.el10.x86_64                                                                                                                                          2/117 
+  Upgrading        : glibc-gconv-extra-2.39-69.el10.x86_64                                                                                                                                     3/117 
+  Running scriptlet: glibc-gconv-extra-2.39-69.el10.x86_64                                                                                                                                     3/117 
+  Running scriptlet: glibc-2.39-69.el10.x86_64                                                                                                                                                 4/117 
+  Upgrading        : glibc-2.39-69.el10.x86_64                                                                                                                                                 4/117 
+  Running scriptlet: glibc-2.39-69.el10.x86_64                                                                                                                                                 4/117 
+  Upgrading        : libtevent-0.17.1-100.el10.x86_64                                                                                                                                          5/117 
+  Upgrading        : libtdb-1.4.14-100.el10.x86_64                                                                                                                                             6/117 
+  Upgrading        : libsss_idmap-2.11.1-3.el10.x86_64                                                                                                                                         7/117 
+  Running scriptlet: samba-common-4.23.0-101.el10.noarch                                                                                                                                       8/117 
+  Upgrading        : samba-common-4.23.0-101.el10.noarch                                                                                                                                       8/117 
+  Running scriptlet: samba-common-4.23.0-101.el10.noarch                                                                                                                                       8/117 
+  Upgrading        : libldb-4.23.0-101.el10.x86_64                                                                                                                                             9/117 
+  Running scriptlet: libwbclient-4.23.0-101.el10.x86_64                                                                                                                                       10/117 
+  Upgrading        : libwbclient-4.23.0-101.el10.x86_64                                                                                                                                       10/117 
+  Upgrading        : samba-client-libs-4.23.0-101.el10.x86_64                                                                                                                                 11/117 
+  Upgrading        : samba-common-libs-4.23.0-101.el10.x86_64                                                                                                                                 12/117 
+  Upgrading        : libsss_certmap-2.11.1-3.el10.x86_64                                                                                                                                      13/117 
+  Upgrading        : papers-libs-47.0-8.git5de8d26c.el10.x86_64                                                                                                                               14/117 
+  Installing       : kernel-modules-core-6.12.0-136.el10.x86_64                                                                                                                               15/117 
+  Installing       : kernel-core-6.12.0-136.el10.x86_64                                                                                                                                       16/117 
+  Running scriptlet: kernel-core-6.12.0-136.el10.x86_64                                                                                                                                       16/117 
+  Upgrading        : libnetapi-4.23.0-101.el10.x86_64                                                                                                                                         17/117 
+  Upgrading        : samba-libs-4.23.0-101.el10.x86_64                                                                                                                                        18/117 
+  Installing       : kernel-modules-6.12.0-136.el10.x86_64                                                                                                                                    19/117 
+  Running scriptlet: kernel-modules-6.12.0-136.el10.x86_64                                                                                                                                    19/117 
+  Upgrading        : libsmbclient-4.23.0-101.el10.x86_64                                                                                                                                      20/117 
+  Upgrading        : kernel-tools-libs-6.12.0-136.el10.x86_64                                                                                                                                 21/117 
+  Running scriptlet: kernel-tools-libs-6.12.0-136.el10.x86_64                                                                                                                                 21/117 
+  Upgrading        : libnfsidmap-1:2.8.3-2.el10.x86_64                                                                                                                                        22/117 
+  Running scriptlet: crypto-policies-20250905-2.gitc7eb7b2.el10.noarch                                                                                                                        23/117 
+  Upgrading        : crypto-policies-20250905-2.gitc7eb7b2.el10.noarch                                                                                                                        23/117 
+  Running scriptlet: crypto-policies-20250905-2.gitc7eb7b2.el10.noarch                                                                                                                        23/117 
+  Upgrading        : sssd-nfs-idmap-2.11.1-3.el10.x86_64                                                                                                                                      24/117 
+  Installing       : kernel-modules-extra-6.12.0-136.el10.x86_64                                                                                                                              25/117 
+  Running scriptlet: kernel-modules-extra-6.12.0-136.el10.x86_64                                                                                                                              25/117 
+  Upgrading        : samba-dcerpc-4.23.0-101.el10.x86_64                                                                                                                                      26/117 
+  Upgrading        : papers-nautilus-47.0-8.git5de8d26c.el10.x86_64                                                                                                                           27/117 
+  Upgrading        : papers-previewer-47.0-8.git5de8d26c.el10.x86_64                                                                                                                          28/117 
+  Upgrading        : papers-thumbnailer-47.0-8.git5de8d26c.el10.x86_64                                                                                                                        29/117 
+  Upgrading        : samba-ldb-ldap-modules-4.23.0-101.el10.x86_64                                                                                                                            30/117 
+  Upgrading        : samba-common-tools-4.23.0-101.el10.x86_64                                                                                                                                31/117 
+  Upgrading        : libipa_hbac-2.11.1-3.el10.x86_64                                                                                                                                         32/117 
+  Upgrading        : libsss_nss_idmap-2.11.1-3.el10.x86_64                                                                                                                                    33/117 
+  Upgrading        : sssd-client-2.11.1-3.el10.x86_64                                                                                                                                         34/117 
+  Running scriptlet: sssd-client-2.11.1-3.el10.x86_64                                                                                                                                         34/117 
+  Upgrading        : libsss_sudo-2.11.1-3.el10.x86_64                                                                                                                                         35/117 
+  Running scriptlet: sssd-common-2.11.1-3.el10.x86_64                                                                                                                                         36/117 
+  Upgrading        : sssd-common-2.11.1-3.el10.x86_64                                                                                                                                         36/117 
+  Running scriptlet: sssd-common-2.11.1-3.el10.x86_64                                                                                                                                         36/117 
+  Upgrading        : sssd-krb5-common-2.11.1-3.el10.x86_64                                                                                                                                    37/117 
+  Upgrading        : sssd-common-pac-2.11.1-3.el10.x86_64                                                                                                                                     38/117 
+  Upgrading        : sssd-ad-2.11.1-3.el10.x86_64                                                                                                                                             39/117 
+  Upgrading        : sssd-ipa-2.11.1-3.el10.x86_64                                                                                                                                            40/117 
+  Upgrading        : sssd-krb5-2.11.1-3.el10.x86_64                                                                                                                                           41/117 
+  Upgrading        : sssd-ldap-2.11.1-3.el10.x86_64                                                                                                                                           42/117 
+  Upgrading        : sssd-proxy-2.11.1-3.el10.x86_64                                                                                                                                          43/117 
+  Upgrading        : libwinpr-2:3.10.3-5.el10.x86_64                                                                                                                                          44/117 
+  Upgrading        : libssh-config-0.11.1-3.el10.noarch                                                                                                                                       45/117 
+  Upgrading        : libssh-0.11.1-3.el10.x86_64                                                                                                                                              46/117 
+  Upgrading        : freerdp-libs-2:3.10.3-5.el10.x86_64                                                                                                                                      47/117 
+  Upgrading        : sssd-2.11.1-3.el10.x86_64                                                                                                                                                48/117 
+  Upgrading        : sssd-kcm-2.11.1-3.el10.x86_64                                                                                                                                            49/117 
+  Running scriptlet: sssd-kcm-2.11.1-3.el10.x86_64                                                                                                                                            49/117 
+  Upgrading        : samba-4.23.0-101.el10.x86_64                                                                                                                                             50/117 
+  Running scriptlet: samba-4.23.0-101.el10.x86_64                                                                                                                                             50/117 
+  Upgrading        : papers-47.0-8.git5de8d26c.el10.x86_64                                                                                                                                    51/117 
+  Installing       : kernel-6.12.0-136.el10.x86_64                                                                                                                                            52/117 
+  Upgrading        : crypto-policies-scripts-20250905-2.gitc7eb7b2.el10.noarch                                                                                                                53/117 
+  Running scriptlet: nfs-utils-1:2.8.3-2.el10.x86_64                                                                                                                                          54/117 
+  Upgrading        : nfs-utils-1:2.8.3-2.el10.x86_64                                                                                                                                          54/117 
+  Running scriptlet: nfs-utils-1:2.8.3-2.el10.x86_64                                                                                                                                          54/117 
+  Upgrading        : kernel-tools-6.12.0-136.el10.x86_64                                                                                                                                      55/117 
+  Upgrading        : python3-perf-6.12.0-136.el10.x86_64                                                                                                                                      56/117 
+  Upgrading        : samba-client-4.23.0-101.el10.x86_64                                                                                                                                      57/117 
+  Running scriptlet: samba-client-4.23.0-101.el10.x86_64                                                                                                                                      57/117 
+  Upgrading        : libinput-1.26.1-5.el10.x86_64                                                                                                                                            58/117 
+  Running scriptlet: libinput-1.26.1-5.el10.x86_64                                                                                                                                            58/117 
+  Running scriptlet: google-chrome-stable-141.0.7390.65-1.x86_64                                                                                                                              59/117 
+  Upgrading        : google-chrome-stable-141.0.7390.65-1.x86_64                                                                                                                              59/117 
+  Running scriptlet: google-chrome-stable-141.0.7390.65-1.x86_64                                                                                                                              59/117 
+/bin/xdg-icon-resource: line 1076: unexpected EOF while looking for matching ``'
+/bin/xdg-icon-resource: line 1076: unexpected EOF while looking for matching ``'
+/bin/xdg-icon-resource: line 1076: unexpected EOF while looking for matching ``'
+/bin/xdg-icon-resource: line 1076: unexpected EOF while looking for matching ``'
+/bin/xdg-icon-resource: line 1076: unexpected EOF while looking for matching ``'
+/bin/xdg-icon-resource: line 1076: unexpected EOF while looking for matching ``'
+/bin/xdg-icon-resource: line 1076: unexpected EOF while looking for matching ``'
+
+  Upgrading        : sos-4.10.0-4.el10.noarch                                                                                                                                                 60/117 
+  Upgrading        : kernel-modules-extra-matched-6.12.0-136.el10.x86_64                                                                                                                      61/117 
+  Running scriptlet: google-chrome-stable-140.0.7339.207-1.x86_64                                                                                                                             62/117 
+  Cleanup          : google-chrome-stable-140.0.7339.207-1.x86_64                                                                                                                             62/117 
+  Running scriptlet: google-chrome-stable-140.0.7339.207-1.x86_64                                                                                                                             62/117 
+  Cleanup          : sssd-2.11.1-2.el10.x86_64                                                                                                                                                63/117 
+  Cleanup          : crypto-policies-scripts-20250905-1.gitc7eb7b2.el10.noarch                                                                                                                64/117 
+  Cleanup          : sos-4.10.0-3.el10.noarch                                                                                                                                                 65/117 
+  Cleanup          : kernel-modules-extra-matched-6.12.0-131.el10.x86_64                                                                                                                      66/117 
+  Running scriptlet: samba-4.22.4-106.el10.x86_64                                                                                                                                             67/117 
+  Cleanup          : samba-4.22.4-106.el10.x86_64                                                                                                                                             67/117 
+  Running scriptlet: samba-4.22.4-106.el10.x86_64                                                                                                                                             67/117 
+  Cleanup          : samba-dcerpc-4.22.4-106.el10.x86_64                                                                                                                                      68/117 
+  Running scriptlet: samba-client-4.22.4-106.el10.x86_64                                                                                                                                      69/117 
+  Cleanup          : samba-client-4.22.4-106.el10.x86_64                                                                                                                                      69/117 
+  Running scriptlet: samba-client-4.22.4-106.el10.x86_64                                                                                                                                      69/117 
+  Cleanup          : samba-common-tools-4.22.4-106.el10.x86_64                                                                                                                                70/117 
+  Cleanup          : samba-libs-4.22.4-106.el10.x86_64                                                                                                                                        71/117 
+  Cleanup          : libnetapi-4.22.4-106.el10.x86_64                                                                                                                                         72/117 
+  Cleanup          : samba-ldb-ldap-modules-4.22.4-106.el10.x86_64                                                                                                                            73/117 
+  Cleanup          : sssd-ipa-2.11.1-2.el10.x86_64                                                                                                                                            74/117 
+  Cleanup          : sssd-ad-2.11.1-2.el10.x86_64                                                                                                                                             75/117 
+  Cleanup          : libsmbclient-4.22.4-106.el10.x86_64                                                                                                                                      76/117 
+  Cleanup          : sssd-common-pac-2.11.1-2.el10.x86_64                                                                                                                                     77/117 
+  Cleanup          : sssd-proxy-2.11.1-2.el10.x86_64                                                                                                                                          78/117 
+  Cleanup          : python3-perf-6.12.0-131.el10.x86_64                                                                                                                                      79/117 
+  Cleanup          : sssd-ldap-2.11.1-2.el10.x86_64                                                                                                                                           80/117 
+  Cleanup          : papers-47.0-6.git5de8d26c.el10.x86_64                                                                                                                                    81/117 
+  Running scriptlet: sssd-kcm-2.11.1-2.el10.x86_64                                                                                                                                            82/117 
+  Cleanup          : sssd-kcm-2.11.1-2.el10.x86_64                                                                                                                                            82/117 
+  Running scriptlet: sssd-kcm-2.11.1-2.el10.x86_64                                                                                                                                            82/117 
+  Running scriptlet: nfs-utils-1:2.8.3-0.el10.x86_64                                                                                                                                          83/117 
+  Cleanup          : nfs-utils-1:2.8.3-0.el10.x86_64                                                                                                                                          83/117 
+  Running scriptlet: nfs-utils-1:2.8.3-0.el10.x86_64                                                                                                                                          83/117 
+  Cleanup          : libinput-1.26.1-4.el10.x86_64                                                                                                                                            84/117 
+  Cleanup          : kernel-tools-6.12.0-131.el10.x86_64                                                                                                                                      85/117 
+  Cleanup          : freerdp-libs-2:3.10.3-3.el10.x86_64                                                                                                                                      86/117 
+  Cleanup          : libwinpr-2:3.10.3-3.el10.x86_64                                                                                                                                          87/117 
+  Cleanup          : libssh-0.11.1-1.el10.x86_64                                                                                                                                              88/117 
+  Cleanup          : sssd-krb5-2.11.1-2.el10.x86_64                                                                                                                                           89/117 
+  Cleanup          : sssd-krb5-common-2.11.1-2.el10.x86_64                                                                                                                                    90/117 
+  Running scriptlet: sssd-common-2.11.1-2.el10.x86_64                                                                                                                                         91/117 
+  Cleanup          : sssd-common-2.11.1-2.el10.x86_64                                                                                                                                         91/117 
+  Running scriptlet: sssd-common-2.11.1-2.el10.x86_64                                                                                                                                         91/117 
+  Cleanup          : samba-client-libs-4.22.4-106.el10.x86_64                                                                                                                                 92/117 
+  Cleanup          : libwbclient-4.22.4-106.el10.x86_64                                                                                                                                       93/117 
+  Cleanup          : samba-common-libs-4.22.4-106.el10.x86_64                                                                                                                                 94/117 
+  Cleanup          : libldb-4.22.4-106.el10.x86_64                                                                                                                                            95/117 
+  Running scriptlet: sssd-client-2.11.1-2.el10.x86_64                                                                                                                                         96/117 
+  Cleanup          : sssd-client-2.11.1-2.el10.x86_64                                                                                                                                         96/117 
+  Cleanup          : sssd-nfs-idmap-2.11.1-2.el10.x86_64                                                                                                                                      97/117 
+  Cleanup          : libnfsidmap-1:2.8.3-0.el10.x86_64                                                                                                                                        98/117 
+  Cleanup          : libsss_nss_idmap-2.11.1-2.el10.x86_64                                                                                                                                    99/117 
+  Cleanup          : libtdb-1.4.13-100.el10.x86_64                                                                                                                                           100/117 
+  Cleanup          : papers-previewer-47.0-6.git5de8d26c.el10.x86_64                                                                                                                         101/117 
+  Cleanup          : libtevent-0.16.2-100.el10.x86_64                                                                                                                                        102/117 
+  Cleanup          : libsss_sudo-2.11.1-2.el10.x86_64                                                                                                                                        103/117 
+  Cleanup          : libsss_idmap-2.11.1-2.el10.x86_64                                                                                                                                       104/117 
+  Cleanup          : libsss_certmap-2.11.1-2.el10.x86_64                                                                                                                                     105/117 
+  Cleanup          : kernel-tools-libs-6.12.0-131.el10.x86_64                                                                                                                                106/117 
+  Running scriptlet: kernel-tools-libs-6.12.0-131.el10.x86_64                                                                                                                                106/117 
+  Cleanup          : papers-thumbnailer-47.0-6.git5de8d26c.el10.x86_64                                                                                                                       107/117 
+  Cleanup          : papers-nautilus-47.0-6.git5de8d26c.el10.x86_64                                                                                                                          108/117 
+  Cleanup          : papers-libs-47.0-6.git5de8d26c.el10.x86_64                                                                                                                              109/117 
+  Cleanup          : libipa_hbac-2.11.1-2.el10.x86_64                                                                                                                                        110/117 
+  Cleanup          : samba-common-4.22.4-106.el10.noarch                                                                                                                                     111/117 
+  Cleanup          : libssh-config-0.11.1-1.el10.noarch                                                                                                                                      112/117 
+  Cleanup          : crypto-policies-20250905-1.gitc7eb7b2.el10.noarch                                                                                                                       113/117 
+  Cleanup          : glibc-all-langpacks-2.39-63.el10.x86_64                                                                                                                                 114/117 
+  Cleanup          : glibc-common-2.39-63.el10.x86_64                                                                                                                                        115/117 
+  Cleanup          : glibc-2.39-63.el10.x86_64                                                                                                                                               116/117 
+  Cleanup          : glibc-gconv-extra-2.39-63.el10.x86_64                                                                                                                                   117/117 
+  Running scriptlet: glibc-gconv-extra-2.39-63.el10.x86_64                                                                                                                                   117/117 
+  Running scriptlet: glibc-all-langpacks-2.39-69.el10.x86_64                                                                                                                                 117/117 
+  Running scriptlet: kernel-modules-core-6.12.0-136.el10.x86_64                                                                                                                              117/117 
+  Running scriptlet: kernel-core-6.12.0-136.el10.x86_64                                                                                                                                      117/117 
+  Running scriptlet: kernel-modules-6.12.0-136.el10.x86_64                                                                                                                                   117/117 
+  Running scriptlet: sssd-common-2.11.1-3.el10.x86_64                                                                                                                                        117/117 
+  Running scriptlet: crypto-policies-scripts-20250905-2.gitc7eb7b2.el10.noarch                                                                                                               117/117 
+  Running scriptlet: glibc-gconv-extra-2.39-63.el10.x86_64                                                                                                                                   117/117 
+
+Upgraded:
+  crypto-policies-20250905-2.gitc7eb7b2.el10.noarch             crypto-policies-scripts-20250905-2.gitc7eb7b2.el10.noarch             freerdp-libs-2:3.10.3-5.el10.x86_64                            
+  glibc-2.39-69.el10.x86_64                                     glibc-all-langpacks-2.39-69.el10.x86_64                               glibc-common-2.39-69.el10.x86_64                               
+  glibc-gconv-extra-2.39-69.el10.x86_64                         google-chrome-stable-141.0.7390.65-1.x86_64                           kernel-modules-extra-matched-6.12.0-136.el10.x86_64            
+  kernel-tools-6.12.0-136.el10.x86_64                           kernel-tools-libs-6.12.0-136.el10.x86_64                              libinput-1.26.1-5.el10.x86_64                                  
+  libipa_hbac-2.11.1-3.el10.x86_64                              libldb-4.23.0-101.el10.x86_64                                         libnetapi-4.23.0-101.el10.x86_64                               
+  libnfsidmap-1:2.8.3-2.el10.x86_64                             libsmbclient-4.23.0-101.el10.x86_64                                   libssh-0.11.1-3.el10.x86_64                                    
+  libssh-config-0.11.1-3.el10.noarch                            libsss_certmap-2.11.1-3.el10.x86_64                                   libsss_idmap-2.11.1-3.el10.x86_64                              
+  libsss_nss_idmap-2.11.1-3.el10.x86_64                         libsss_sudo-2.11.1-3.el10.x86_64                                      libtdb-1.4.14-100.el10.x86_64                                  
+  libtevent-0.17.1-100.el10.x86_64                              libwbclient-4.23.0-101.el10.x86_64                                    libwinpr-2:3.10.3-5.el10.x86_64                                
+  nfs-utils-1:2.8.3-2.el10.x86_64                               papers-47.0-8.git5de8d26c.el10.x86_64                                 papers-libs-47.0-8.git5de8d26c.el10.x86_64                     
+  papers-nautilus-47.0-8.git5de8d26c.el10.x86_64                papers-previewer-47.0-8.git5de8d26c.el10.x86_64                       papers-thumbnailer-47.0-8.git5de8d26c.el10.x86_64              
+  python3-perf-6.12.0-136.el10.x86_64                           samba-4.23.0-101.el10.x86_64                                          samba-client-4.23.0-101.el10.x86_64                            
+  samba-client-libs-4.23.0-101.el10.x86_64                      samba-common-4.23.0-101.el10.noarch                                   samba-common-libs-4.23.0-101.el10.x86_64                       
+  samba-common-tools-4.23.0-101.el10.x86_64                     samba-dcerpc-4.23.0-101.el10.x86_64                                   samba-ldb-ldap-modules-4.23.0-101.el10.x86_64                  
+  samba-libs-4.23.0-101.el10.x86_64                             sos-4.10.0-4.el10.noarch                                              sssd-2.11.1-3.el10.x86_64                                      
+  sssd-ad-2.11.1-3.el10.x86_64                                  sssd-client-2.11.1-3.el10.x86_64                                      sssd-common-2.11.1-3.el10.x86_64                               
+  sssd-common-pac-2.11.1-3.el10.x86_64                          sssd-ipa-2.11.1-3.el10.x86_64                                         sssd-kcm-2.11.1-3.el10.x86_64                                  
+  sssd-krb5-2.11.1-3.el10.x86_64                                sssd-krb5-common-2.11.1-3.el10.x86_64                                 sssd-ldap-2.11.1-3.el10.x86_64                                 
+  sssd-nfs-idmap-2.11.1-3.el10.x86_64                           sssd-proxy-2.11.1-3.el10.x86_64                                      
+Installed:
+  kernel-6.12.0-136.el10.x86_64  kernel-core-6.12.0-136.el10.x86_64  kernel-modules-6.12.0-136.el10.x86_64  kernel-modules-core-6.12.0-136.el10.x86_64  kernel-modules-extra-6.12.0-136.el10.x86_64 
+
+Complete!
+root@rdomain:~# dnf install epel-release
+Last metadata expiration check: 0:03:55 ago on Wednesday 08 October 2025 03:07:31 PM.
+Package epel-release-10-6.el10_0.noarch is already installed.
+Dependencies resolved.
+Nothing to do.
+Complete!
+root@rdomain:~# dnf install sendmail sendmail-cf -y
+Last metadata expiration check: 0:04:12 ago on Wednesday 08 October 2025 03:07:31 PM.
+Dependencies resolved.
+=====================================================================================================================================================================================================
+ Package                                         Architecture                               Version                                              Repository                                     Size
+=====================================================================================================================================================================================================
+Installing:
+ sendmail                                        x86_64                                     8.18.1-4.el10_0                                      epel                                          761 k
+ sendmail-cf                                     noarch                                     8.18.1-4.el10_0                                      epel                                          153 k
+Installing dependencies:
+ cyrus-sasl                                      x86_64                                     2.1.28-27.el10                                       baseos                                         73 k
+ m4                                              x86_64                                     1.4.19-11.el10                                       appstream                                     305 k
+ procmail                                        x86_64                                     3.24-8.el10                                          appstream                                     184 k
+ tinycdb                                         x86_64                                     0.80-4.el10                                          appstream                                      33 k
+
+Transaction Summary
+=====================================================================================================================================================================================================
+Install  6 Packages
+
+Total download size: 1.5 M
+Installed size: 3.7 M
+Downloading Packages:
+(1/6): cyrus-sasl-2.1.28-27.el10.x86_64.rpm                                                                                                                           86 kB/s |  73 kB     00:00    
+(2/6): procmail-3.24-8.el10.x86_64.rpm                                                                                                                               212 kB/s | 184 kB     00:00    
+(3/6): m4-1.4.19-11.el10.x86_64.rpm                                                                                                                                  303 kB/s | 305 kB     00:01    
+(4/6): tinycdb-0.80-4.el10.x86_64.rpm                                                                                                                                 81 kB/s |  33 kB     00:00    
+(5/6): sendmail-cf-8.18.1-4.el10_0.noarch.rpm                                                                                                                        235 kB/s | 153 kB     00:00    
+(6/6): sendmail-8.18.1-4.el10_0.x86_64.rpm                                                                                                                           394 kB/s | 761 kB     00:01    
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                                                                                294 kB/s | 1.5 MB     00:05     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                                                                                                                             1/1 
+  Installing       : tinycdb-0.80-4.el10.x86_64                                                                                                                                                  1/6 
+  Installing       : procmail-3.24-8.el10.x86_64                                                                                                                                                 2/6 
+  Installing       : m4-1.4.19-11.el10.x86_64                                                                                                                                                    3/6 
+  Running scriptlet: cyrus-sasl-2.1.28-27.el10.x86_64                                                                                                                                            4/6 
+  Installing       : cyrus-sasl-2.1.28-27.el10.x86_64                                                                                                                                            4/6 
+  Running scriptlet: cyrus-sasl-2.1.28-27.el10.x86_64                                                                                                                                            4/6 
+  Running scriptlet: sendmail-8.18.1-4.el10_0.x86_64                                                                                                                                             5/6 
+  Installing       : sendmail-8.18.1-4.el10_0.x86_64                                                                                                                                             5/6 
+  Running scriptlet: sendmail-8.18.1-4.el10_0.x86_64                                                                                                                                             5/6 
+  Installing       : sendmail-cf-8.18.1-4.el10_0.noarch                                                                                                                                          6/6 
+  Running scriptlet: sendmail-cf-8.18.1-4.el10_0.noarch                                                                                                                                          6/6 
+
+Installed:
+  cyrus-sasl-2.1.28-27.el10.x86_64   m4-1.4.19-11.el10.x86_64   procmail-3.24-8.el10.x86_64   sendmail-8.18.1-4.el10_0.x86_64   sendmail-cf-8.18.1-4.el10_0.noarch   tinycdb-0.80-4.el10.x86_64  
+
+Complete!
+root@rdomain:~# vi /etc/mail/sendmail.c
+root@rdomain:~# vi /etc/mail/sendmail.mc
+root@rdomain:~# m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
+root@rdomain:~# systemctl restart sendmail
+root@rdomain:~# netstat -pant
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      20322/sshd: /usr/sb 
+tcp        0      0 0.0.0.0:25              0.0.0.0:*               LISTEN      20985/sendmail: acc 
+tcp        0      0 127.0.0.1:631           0.0.0.0:*               LISTEN      1476/cupsd          
+tcp        0      0 192.168.2.165:36276     192.168.2.159:514       ESTABLISHED 1525/rsyslogd       
+tcp6       0      0 ::1:631                 :::*                    LISTEN      1476/cupsd          
+tcp6       0      0 :::9090                 :::*                    LISTEN      1/systemd           
+tcp6       0      0 :::22                   :::*                    LISTEN      20322/sshd: /usr/sb 
+root@rdomain:~# systemctl stop firewalld
+root@rdomain:~# iptables -F
+root@rdomain:~# useradd rdomain
+root@rdomain:~# passwd rdomain
+New password: 
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: 
+passwd: password updated successfully
+root@rdomain:~# cd /var/spool/mail
+root@rdomain:/var/spool/mail# ls
+atharv  ayush  player1  player2  rdomain  rpc
+root@rdomain:/var/spool/mail# dnf install s-nail -y
+Last metadata expiration check: 0:15:00 ago on Wednesday 08 October 2025 03:07:31 PM.
+Dependencies resolved.
+=====================================================================================================================================================================================================
+ Package                                     Architecture                                Version                                                Repository                                      Size
+=====================================================================================================================================================================================================
+Installing:
+ s-nail                                      x86_64                                      14.9.24-12.el10                                        appstream                                      634 k
+
+Transaction Summary
+=====================================================================================================================================================================================================
+Install  1 Package
+
+Total download size: 634 k
+Installed size: 1.2 M
+Downloading Packages:
+s-nail-14.9.24-12.el10.x86_64.rpm                                                                                                                                    1.3 MB/s | 634 kB     00:00    
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                                                                                1.1 MB/s | 634 kB     00:00     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                                                                                                                             1/1 
+  Running scriptlet: s-nail-14.9.24-12.el10.x86_64                                                                                                                                               1/1 
+  Installing       : s-nail-14.9.24-12.el10.x86_64                                                                                                                                               1/1 
+  Running scriptlet: s-nail-14.9.24-12.el10.x86_64                                                                                                                                               1/1 
+
+Installed:
+  s-nail-14.9.24-12.el10.x86_64                                                                                                                                                                      
+
+Complete!
+root@rdomain:/var/spool/mail# su rdomain
+rdomain@rdomain:/var/spool/mail$ sudo su -
+
+We trust you have received the usual lecture from the local System
+Administrator. It usually boils down to these three things:
+
+    #1) Respect the privacy of others.
+    #2) Think before you type.
+    #3) With great power comes great responsibility.
+
+For security reasons, the password you type will not be visible.
+
+[sudo] password for rdomain: 
+rdomain is not in the sudoers file.
+This incident has been reported to the administrator.
+rdomain@rdomain:/var/spool/mail$ sudo su -
+[sudo] password for rdomain: 
+rdomain is not in the sudoers file.
+This incident has been reported to the administrator.
+rdomain@rdomain:/var/spool/mail$ ls
+atharv  ayush  player1  player2  rdomain  root  rpc
+You have new mail in /var/spool/mail/root
+rdomain@rdomain:/var/spool/mail$ cd root
+bash: cd: root: Not a directory
+rdomain@rdomain:/var/spool/mail$ cat root
+cat: root: Permission denied
+rdomain@rdomain:/var/spool/mail$ sudo cat root
+[sudo] password for rdomain: 
+rdomain is not in the sudoers file.
+This incident has been reported to the administrator.
+rdomain@rdomain:/var/spool/mail$ ls -l root
+-rw-------. 1 root root 2377 Oct  8 17:15 root
+You have mail in /var/spool/mail/root
+rdomain@rdomain:/var/spool/mail$ cat root
+From rdomain@rdomain.in  Wed Oct  8 17:13:06 2025
+Return-Path: <rdomain@rdomain.in>
+Received: from rdomain.in (localhost [127.0.0.1])
+	by rdomain.in (8.18.1/8.18.1) with ESMTPS id 598Bh4Ek022700
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <root@rdomain.in>; Wed, 8 Oct 2025 17:13:06 +0530
+Received: (from rdomain@localhost)
+	by rdomain.in (8.18.1/8.18.1/Submit) id 598Bh4OE022699;
+	Wed, 8 Oct 2025 17:13:04 +0530
+Date: Wed, 8 Oct 2025 17:13:04 +0530
+Message-Id: <202510081143.598Bh4OE022699@rdomain.in>
+To: root@rdomain.in
+From: rdomain@rdomain.in
+Auto-Submitted: auto-generated
+Subject: *** SECURITY information for rdomain.in ***
+
+rdomain.in : Oct  8 17:13:04 : rdomain : user NOT in sudoers ; TTY=pts/1 ; PWD=/var/spool/mail ; USER=root ; COMMAND=/bin/su -
+
+From rdomain@rdomain.in  Wed Oct  8 17:13:17 2025
+Return-Path: <rdomain@rdomain.in>
+Received: from rdomain.in (localhost [127.0.0.1])
+	by rdomain.in (8.18.1/8.18.1) with ESMTPS id 598BhHZp022718
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <root@rdomain.in>; Wed, 8 Oct 2025 17:13:17 +0530
+Received: (from rdomain@localhost)
+	by rdomain.in (8.18.1/8.18.1/Submit) id 598BhHfC022717;
+	Wed, 8 Oct 2025 17:13:17 +0530
+Date: Wed, 8 Oct 2025 17:13:17 +0530
+Message-Id: <202510081143.598BhHfC022717@rdomain.in>
+To: root@rdomain.in
+From: rdomain@rdomain.in
+Auto-Submitted: auto-generated
+Subject: *** SECURITY information for rdomain.in ***
+
+rdomain.in : Oct  8 17:13:17 : rdomain : user NOT in sudoers ; TTY=pts/1 ; PWD=/var/spool/mail ; USER=root ; COMMAND=/bin/su -
+
+From rdomain@rdomain.in  Wed Oct  8 17:15:53 2025
+Return-Path: <rdomain@rdomain.in>
+Received: from rdomain.in (localhost [127.0.0.1])
+	by rdomain.in (8.18.1/8.18.1) with ESMTPS id 598BjraG022750
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <root@rdomain.in>; Wed, 8 Oct 2025 17:15:53 +0530
+Received: (from rdomain@localhost)
+	by rdomain.in (8.18.1/8.18.1/Submit) id 598BjrUk022749;
+	Wed, 8 Oct 2025 17:15:53 +0530
+Date: Wed, 8 Oct 2025 17:15:53 +0530
+Message-Id: <202510081145.598BjrUk022749@rdomain.in>
+To: root@rdomain.in
+From: rdomain@rdomain.in
+Auto-Submitted: auto-generated
+Subject: *** SECURITY information for rdomain.in ***
+
+rdomain.in : Oct  8 17:15:53 : rdomain : user NOT in sudoers ; TTY=pts/1 ; PWD=/var/spool/mail ; USER=root ; COMMAND=/bin/cat root
+
+rdomain@rdomain:/var/spool/mail$ ls
+atharv  ayush  player1  player2  rdomain  root  rpc
+rdomain@rdomain:/var/spool/mail$ ls -l root
+-rwxrwxrwx. 1 root root 2377 Oct  8 17:15 root
+rdomain@rdomain:/var/spool/mail$ grep testing /var/spool/mail/root
+rdomain@rdomain:/var/spool/mail$ grep testing /var/spool/mail
+grep: /var/spool/mail: Is a directory
+rdomain@rdomain:/var/spool/mail$ mailx -s "From RDomain 17:31" sdomain@sdomain.in
+To: sdomain@sdomain.in
+Subject: From RDomain 17:31
+
+Test from RDomain
+s-nail: 
+s-nail: (Interrupt -- one more to kill letter)
+s-nail: There are messages in the error ring, manageable via `errors' command
+^D
+-------
+(Preliminary) Envelope contains:
+To: sdomain@sdomain.in
+Subject: From RDomain 17:31
+Send this message [yes/no, empty: recompose]? yes
+rdomain@rdomain:/var/spool/mail$ mailq
+can not chdir(/var/spool/mqueue/): Permission denied
+Program mode requires special privileges, e.g., root or TrustedUser.
+rdomain@rdomain:/var/spool/mail$ ls -l root
+-rwxrwxrwx. 1 root root 2377 Oct  8 17:15 root
+rdomain@rdomain:/var/spool/mail$ cat root
+From rdomain@rdomain.in  Wed Oct  8 17:13:06 2025
+Return-Path: <rdomain@rdomain.in>
+Received: from rdomain.in (localhost [127.0.0.1])
+	by rdomain.in (8.18.1/8.18.1) with ESMTPS id 598Bh4Ek022700
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <root@rdomain.in>; Wed, 8 Oct 2025 17:13:06 +0530
+Received: (from rdomain@localhost)
+	by rdomain.in (8.18.1/8.18.1/Submit) id 598Bh4OE022699;
+	Wed, 8 Oct 2025 17:13:04 +0530
+Date: Wed, 8 Oct 2025 17:13:04 +0530
+Message-Id: <202510081143.598Bh4OE022699@rdomain.in>
+To: root@rdomain.in
+From: rdomain@rdomain.in
+Auto-Submitted: auto-generated
+Subject: *** SECURITY information for rdomain.in ***
+
+rdomain.in : Oct  8 17:13:04 : rdomain : user NOT in sudoers ; TTY=pts/1 ; PWD=/var/spool/mail ; USER=root ; COMMAND=/bin/su -
+
+From rdomain@rdomain.in  Wed Oct  8 17:13:17 2025
+Return-Path: <rdomain@rdomain.in>
+Received: from rdomain.in (localhost [127.0.0.1])
+	by rdomain.in (8.18.1/8.18.1) with ESMTPS id 598BhHZp022718
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <root@rdomain.in>; Wed, 8 Oct 2025 17:13:17 +0530
+Received: (from rdomain@localhost)
+	by rdomain.in (8.18.1/8.18.1/Submit) id 598BhHfC022717;
+	Wed, 8 Oct 2025 17:13:17 +0530
+Date: Wed, 8 Oct 2025 17:13:17 +0530
+Message-Id: <202510081143.598BhHfC022717@rdomain.in>
+To: root@rdomain.in
+From: rdomain@rdomain.in
+Auto-Submitted: auto-generated
+Subject: *** SECURITY information for rdomain.in ***
+
+rdomain.in : Oct  8 17:13:17 : rdomain : user NOT in sudoers ; TTY=pts/1 ; PWD=/var/spool/mail ; USER=root ; COMMAND=/bin/su -
+
+From rdomain@rdomain.in  Wed Oct  8 17:15:53 2025
+Return-Path: <rdomain@rdomain.in>
+Received: from rdomain.in (localhost [127.0.0.1])
+	by rdomain.in (8.18.1/8.18.1) with ESMTPS id 598BjraG022750
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <root@rdomain.in>; Wed, 8 Oct 2025 17:15:53 +0530
+Received: (from rdomain@localhost)
+	by rdomain.in (8.18.1/8.18.1/Submit) id 598BjrUk022749;
+	Wed, 8 Oct 2025 17:15:53 +0530
+Date: Wed, 8 Oct 2025 17:15:53 +0530
+Message-Id: <202510081145.598BjrUk022749@rdomain.in>
+To: root@rdomain.in
+From: rdomain@rdomain.in
+Auto-Submitted: auto-generated
+Subject: *** SECURITY information for rdomain.in ***
+
+rdomain.in : Oct  8 17:15:53 : rdomain : user NOT in sudoers ; TTY=pts/1 ; PWD=/var/spool/mail ; USER=root ; COMMAND=/bin/cat root
+
+rdomain@rdomain:/var/spool/mail$ mailx -s "From RDomain 17:31" sdomain@sdomain.in
+To: sdomain@sdomain.in
+Subject: From RDomain 17:31
+
+Hello @17 34
+s-nail: 
+s-nail: (Interrupt -- one more to kill letter)
+s-nail: There are messages in the error ring, manageable via `errors' command
+/home/rdomain/dead.letter 3/52
+rdomain@rdomain:/var/spool/mail$ mailx -s "From RDomain 17:31" sdomain@sdomain.in
+To: sdomain@sdomain.in
+Subject: From RDomain 17:31
+
+Hello @ 17 34
+^D
+-------
+(Preliminary) Envelope contains:
+To: sdomain@sdomain.in
+Subject: From RDomain 17:31
+Send this message [yes/no, empty: recompose]? yes
+rdomain@rdomain:/var/spool/mail$ mailq
+can not chdir(/var/spool/mqueue/): Permission denied
+Program mode requires special privileges, e.g., root or TrustedUser.
+rdomain@rdomain:/var/spool/mail$ sudo mailq
+[sudo] password for rdomain: 
+/var/spool/mqueue is empty
+		Total requests: 0
+rdomain@rdomain:/var/spool/mail$ systemctl restart sendmail
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ====
+Authentication is required to restart 'sendmail.service'.
+Multiple identities can be used for authentication:
+ 1.  Player1 (player1)
+ 2.  Atharv  (atharv)
+Choose identity to authenticate as (1-2): 1
+Password: 
+polkit-agent-helper-1: pam_authenticate failed: Authentication failure
+==== AUTHENTICATION FAILED ====
+Failed to restart sendmail.service: Access denied
+See system logs and 'systemctl status sendmail.service' for details.
+rdomain@rdomain:/var/spool/mail$ systemctl restart sendmail
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ====
+Authentication is required to restart 'sendmail.service'.
+Multiple identities can be used for authentication:
+ 1.  Player1 (player1)
+ 2.  Atharv  (atharv)
+Choose identity to authenticate as (1-2): 1
+Password: 
+polkit-agent-helper-1: pam_authenticate failed: Authentication failure
+==== AUTHENTICATION FAILED ====
+Failed to restart sendmail.service: Access denied
+See system logs and 'systemctl status sendmail.service' for details.
+rdomain@rdomain:/var/spool/mail$ systemctl restart sendmail
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ====
+Authentication is required to restart 'sendmail.service'.
+Multiple identities can be used for authentication:
+ 1.  Player1 (player1)
+ 2.  Atharv  (atharv)
+Choose identity to authenticate as (1-2): 2
+Password: 
+polkit-agent-helper-1: pam_authenticate failed: Authentication failure
+==== AUTHENTICATION FAILED ====
+Failed to restart sendmail.service: Access denied
+See system logs and 'systemctl status sendmail.service' for details.
+rdomain@rdomain:/var/spool/mail$ systemctl status sendmail
+● sendmail.service - Sendmail Mail Transport Agent
+     Loaded: loaded (/usr/lib/systemd/system/sendmail.service; disabled; preset: disabled)
+     Active: active (running) since Wed 2025-10-08 15:15:34 IST; 2h 22min ago
+ Invocation: e3bafb4f464247028ce0e1f9b1e5257f
+    Process: 20973 ExecStartPre=/etc/mail/make (code=exited, status=0/SUCCESS)
+    Process: 20976 ExecStartPre=/etc/mail/make aliases (code=exited, status=0/SUCCESS)
+    Process: 20983 ExecStart=/usr/sbin/sendmail -bd $SENDMAIL_OPTS $SENDMAIL_OPTARG (code=exited, status=0/SUCCESS)
+   Main PID: 20985 (sendmail)
+      Tasks: 1 (limit: 48772)
+     Memory: 4.1M (peak: 7.4M)
+        CPU: 482ms
+     CGroup: /system.slice/sendmail.service
+             └─20985 "sendmail: accepting connections"
+rdomain@rdomain:/var/spool/mail$ systemctl enable sendmail
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-unit-files ====
+Authentication is required to manage system service or unit files.
+Multiple identities can be used for authentication:
+ 1.  Player1 (player1)
+ 2.  Atharv  (atharv)
+Choose identity to authenticate as (1-2): 1
+Password: 
+==== AUTHENTICATION COMPLETE ====
+Created symlink '/etc/systemd/system/multi-user.target.wants/sendmail.service' → '/usr/lib/systemd/system/sendmail.service'.
+Created symlink '/etc/systemd/system/multi-user.target.wants/sm-client.service' → '/usr/lib/systemd/system/sm-client.service'.
+==== AUTHENTICATING FOR org.freedesktop.systemd1.reload-daemon ====
+Authentication is required to reload the systemd state.
+Multiple identities can be used for authentication:
+ 1.  Player1 (player1)
+ 2.  Atharv  (atharv)
+Choose identity to authenticate as (1-2): Reload daemon failed: Method call timed out
+rdomain@rdomain:/var/spool/mail$ ls
+atharv  ayush  player1  player2  rdomain  root  rpc
+rdomain@rdomain:/var/spool/mail$ cat rdomain
+From MAILER-DAEMON@rdomain.in  Wed Oct  8 17:32:08 2025
+Return-Path: <MAILER-DAEMON@rdomain.in>
+Received: from localhost (localhost)
+	by rdomain.in (8.18.1/8.18.1) id 598C28uv022976;
+	Wed, 8 Oct 2025 17:32:08 +0530
+Date: Wed, 8 Oct 2025 17:32:08 +0530
+From: Mail Delivery Subsystem <MAILER-DAEMON@rdomain.in>
+Message-Id: <202510081202.598C28uv022976@rdomain.in>
+To: <rdomain@rdomain.in>
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="598C28uv022976.1759924928/rdomain.in"
+Subject: Returned mail: see transcript for details
+Auto-Submitted: auto-generated (failure)
+
+This is a MIME-encapsulated message
+
+--598C28uv022976.1759924928/rdomain.in
+
+The original message was received at Wed, 8 Oct 2025 17:32:05 +0530
+from localhost [127.0.0.1]
+
+   ----- The following addresses had permanent fatal errors -----
+<sdomain@sdomain.in>
+    (reason: 550 5.1.1 <sdomain@sdomain.in> Recipient not found.  <https://www.secureserver.net/help/fix-rejected-email-with-a-bounce-error-40685?pl_id=3153&prog_id=3153#irb>)
+
+   ----- Transcript of session follows -----
+... while talking to smtp.secureserver.net.:
+>>> RCPT To:<sdomain@sdomain.in>
+<<< 550 5.1.1 <sdomain@sdomain.in> Recipient not found.  <https://www.secureserver.net/help/fix-rejected-email-with-a-bounce-error-40685?pl_id=3153&prog_id=3153#irb>
+550 5.1.1 <sdomain@sdomain.in>... User unknown
+
+--598C28uv022976.1759924928/rdomain.in
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; rdomain.in
+Received-From-MTA: DNS; localhost
+Arrival-Date: Wed, 8 Oct 2025 17:32:05 +0530
+
+Final-Recipient: RFC822; sdomain@sdomain.in
+X-Actual-Recipient: rfc822; sdomain@sdomain.in
+Action: failed
+Status: 5.1.1
+Remote-MTA: DNS; smtp.secureserver.net
+Diagnostic-Code: SMTP; 550 5.1.1 <sdomain@sdomain.in> Recipient not found.  <https://www.secureserver.net/help/fix-rejected-email-with-a-bounce-error-40685?pl_id=3153&prog_id=3153#irb>
+Last-Attempt-Date: Wed, 8 Oct 2025 17:32:08 +0530
+
+--598C28uv022976.1759924928/rdomain.in
+Content-Type: message/rfc822
+
+Return-Path: <rdomain@rdomain.in>
+Received: from rdomain.in (localhost [127.0.0.1])
+	by rdomain.in (8.18.1/8.18.1) with ESMTPS id 598C24uw022974
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <sdomain@sdomain.in>; Wed, 8 Oct 2025 17:32:05 +0530
+Received: (from rdomain@localhost)
+	by rdomain.in (8.18.1/8.18.1/Submit) id 598C24AO022973
+	for sdomain@sdomain.in; Wed, 8 Oct 2025 17:32:04 +0530
+From: rdomain@rdomain.in
+Message-Id: <202510081202.598C24AO022973@rdomain.in>
+Date: Wed, 08 Oct 2025 17:32:04 +0530
+To: sdomain@sdomain.in
+Subject: From RDomain 17:31
+User-Agent: s-nail v14.9.24
+
+Test from RDomain
+
+--598C28uv022976.1759924928/rdomain.in--
+
+From MAILER-DAEMON@rdomain.in  Wed Oct  8 17:35:04 2025
+Return-Path: <MAILER-DAEMON@rdomain.in>
+Received: from localhost (localhost)
+	by rdomain.in (8.18.1/8.18.1) id 598C54kA023133;
+	Wed, 8 Oct 2025 17:35:04 +0530
+Date: Wed, 8 Oct 2025 17:35:04 +0530
+From: Mail Delivery Subsystem <MAILER-DAEMON@rdomain.in>
+Message-Id: <202510081205.598C54kA023133@rdomain.in>
+To: <rdomain@rdomain.in>
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="598C54kA023133.1759925104/rdomain.in"
+Subject: Returned mail: see transcript for details
+Auto-Submitted: auto-generated (failure)
+
+This is a MIME-encapsulated message
+
+--598C54kA023133.1759925104/rdomain.in
+
+The original message was received at Wed, 8 Oct 2025 17:35:02 +0530
+from localhost [127.0.0.1]
+
+   ----- The following addresses had permanent fatal errors -----
+<sdomain@sdomain.in>
+    (reason: 550 5.1.1 <sdomain@sdomain.in> Recipient not found.  <https://www.secureserver.net/help/fix-rejected-email-with-a-bounce-error-40685?pl_id=3153&prog_id=3153#irb>)
+
+   ----- Transcript of session follows -----
+... while talking to smtp.secureserver.net.:
+>>> RCPT To:<sdomain@sdomain.in>
+<<< 550 5.1.1 <sdomain@sdomain.in> Recipient not found.  <https://www.secureserver.net/help/fix-rejected-email-with-a-bounce-error-40685?pl_id=3153&prog_id=3153#irb>
+550 5.1.1 <sdomain@sdomain.in>... User unknown
+
+--598C54kA023133.1759925104/rdomain.in
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; rdomain.in
+Received-From-MTA: DNS; localhost
+Arrival-Date: Wed, 8 Oct 2025 17:35:02 +0530
+
+Final-Recipient: RFC822; sdomain@sdomain.in
+X-Actual-Recipient: rfc822; sdomain@sdomain.in
+Action: failed
+Status: 5.1.1
+Remote-MTA: DNS; smtp.secureserver.net
+Diagnostic-Code: SMTP; 550 5.1.1 <sdomain@sdomain.in> Recipient not found.  <https://www.secureserver.net/help/fix-rejected-email-with-a-bounce-error-40685?pl_id=3153&prog_id=3153#irb>
+Last-Attempt-Date: Wed, 8 Oct 2025 17:35:04 +0530
+
+--598C54kA023133.1759925104/rdomain.in
+Content-Type: message/rfc822
+
+Return-Path: <rdomain@rdomain.in>
+Received: from rdomain.in (localhost [127.0.0.1])
+	by rdomain.in (8.18.1/8.18.1) with ESMTPS id 598C52kB023131
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <sdomain@sdomain.in>; Wed, 8 Oct 2025 17:35:02 +0530
+Received: (from rdomain@localhost)
+	by rdomain.in (8.18.1/8.18.1/Submit) id 598C5253023130
+	for sdomain@sdomain.in; Wed, 8 Oct 2025 17:35:02 +0530
+From: rdomain@rdomain.in
+Message-Id: <202510081205.598C5253023130@rdomain.in>
+Date: Wed, 08 Oct 2025 17:35:02 +0530
+To: sdomain@sdomain.in
+Subject: From RDomain 17:31
+User-Agent: s-nail v14.9.24
+
+Hello @ 17 34
+
+--598C54kA023133.1759925104/rdomain.in--
+
+rdomain@rdomain:/var/spool/mail$ ^C
+rdomain@rdomain:/var/spool/mail$ hostname
+rdomain.in
+rdomain@rdomain:/var/spool/mail$ dig MX sdomain.in
+
+; <<>> DiG 9.18.33 <<>> MX sdomain.in
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 63973
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 6673185cde474e050100000068e65e3d4fd15b468ea2c43b (good)
+;; QUESTION SECTION:
+;sdomain.in.			IN	MX
+
+;; ANSWER SECTION:
+sdomain.in.		3600	IN	MX	1 mail.sdomain.in.
+
+;; ADDITIONAL SECTION:
+mail.sdomain.in.	3600	IN	A	192.168.2.32
+
+;; Query time: 1 msec
+;; SERVER: 192.168.3.146#53(192.168.3.146) (UDP)
+;; WHEN: Wed Oct 08 18:21:11 IST 2025
+;; MSG SIZE  rcvd: 104
+
+rdomain@rdomain:/var/spool/mail$ telnet 192.168.2.32 25
+bash: telnet: command not found...
+Install package 'telnet' to provide command 'telnet'? [N/y] y
+
+
+ * Waiting in queue... 
+ * Loading list of packages.... 
+The following packages have to be installed:
+ telnet-1:0.17-94.el10.x86_64	The client program for the Telnet remote login protocol
+Proceed with changes? [N/y] y
+
+
+ * Waiting in queue... 
+ * Waiting for authentication... Failed to install packages: Failed to obtain authentication.
+
+rdomain@rdomain:/var/spool/mail$ telnet 192.168.2.32 25
+bash: telnet: command not found...
+Install package 'telnet' to provide command 'telnet'? [N/y] 
+
+
+rdomain@rdomain:/var/spool/mail$ ls
+atharv  ayush  player1  player2  rdomain  root  rpc
+rdomain@rdomain:/var/spool/mail$ ifconfig 
+enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.2.165  netmask 255.255.252.0  broadcast 192.168.3.255
+        inet6 fe80::3c42:feee:9ef0:7ae9  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:0f:d1:13  txqueuelen 1000  (Ethernet)
+        RX packets 651752  bytes 686009674 (654.2 MiB)
+        RX errors 0  dropped 6559  overruns 0  frame 0
+        TX packets 46038  bytes 5623987 (5.3 MiB)
+        TX errors 0  dropped 17 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 1027  bytes 214355 (209.3 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1027  bytes 214355 (209.3 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+rdomain@rdomain:/var/spool/mail$ exit
+exit
+You have mail in /var/spool/mail/root
+root@rdomain:/var/spool/mail# 
+root@rdomain:/var/spool/mail# ls
+atharv  ayush  player1  player2  rdomain  root  rpc
+root@rdomain:/var/spool/mail# c
+bash: c: command not found...
+root@rdomain:/var/spool/mail# ls
+atharv  ayush  player1  player2  rdomain  root  rpc
+root@rdomain:/var/spool/mail# ll
+total 12
+-rw-rw----. 1 atharv  mail    0 Sep 18 12:12 atharv
+-rw-rw----. 1 ayush   mail    0 Sep 19 02:32 ayush
+-rw-rw----. 1 player1 mail    0 Sep 18 09:30 player1
+-rw-rw----. 1 player2 mail    0 Sep 18 12:30 player2
+-rw-rw----. 1 rdomain mail 5418 Oct  8 17:35 rdomain
+-rwxrwxrwx. 1 root    root 2377 Oct  8 17:15 root
+-rw-rw----. 1 rpc     mail    0 Sep 24 15:25 rpc
+root@rdomain:/var/spool/mail# vi /etc/mail/sendmail.mc 
+root@rdomain:/var/spool/mail# ls -l /etc/mail/sendmail.cf 
+-rw-r--r--. 1 root root 60832 Oct  8 15:15 /etc/mail/sendmail.cf
+root@rdomain:/var/spool/mail# hostname
+rdomain.in
+root@rdomain:/var/spool/mail# nslookup 
+> server
+Default server: 192.168.3.146
+Address: 192.168.3.146#53
+> set type=MX
+> rdomain.in
+Server:		192.168.3.146
+Address:	192.168.3.146#53
+
+rdomain.in	mail exchanger = 1 mail.rdomain.in.
+> set type=A
+> mail.rdomain.in 
+Server:		192.168.3.146
+Address:	192.168.3.146#53
+
+Name:	mail.rdomain.in
+Address: 192.168.2.165
+> exit
+
+root@rdomain:/var/spool/mail# ifconfig 
+enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.2.165  netmask 255.255.252.0  broadcast 192.168.3.255
+        inet6 fe80::3c42:feee:9ef0:7ae9  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:0f:d1:13  txqueuelen 1000  (Ethernet)
+        RX packets 652423  bytes 686166800 (654.3 MiB)
+        RX errors 0  dropped 6578  overruns 0  frame 0
+        TX packets 46062  bytes 5625605 (5.3 MiB)
+        TX errors 0  dropped 17 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 1030  bytes 214619 (209.5 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1030  bytes 214619 (209.5 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+root@rdomain:/var/spool/mail# iptables -nL
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+root@rdomain:/var/spool/mail# vi /etc/hosts
+root@rdomain:/var/spool/mail# su rdomain
+rdomain@rdomain:/var/spool/mail$ mailx -s "From RDomain 18:56" sdomain@sdomain.in
+To: sdomain@sdomain.in
+Subject: From RDomain 18:56
+
+hi
+^D
+-------
+(Preliminary) Envelope contains:
+To: sdomain@sdomain.in
+Subject: From RDomain 18:56
+Send this message [yes/no, empty: recompose]? yes
+rdomain@rdomain:/var/spool/mail$ 
+
+#########################################################################################
+root@rdomain:~# tail -f /var/log/maillog
+Oct  8 17:35:02 dhcpserver sendmail[23130]: 598C5253023130: from=rdomain, size=132, class=0, nrcpts=1, msgid=<202510081205.598C5253023130@rdomain.in>, relay=rdomain@localhost
+Oct  8 17:35:02 dhcpserver sendmail[23130]: STARTTLS=client, relay=[127.0.0.1], version=TLSv1.3, verify=FAIL, cipher=TLS_AES_256_GCM_SHA384, bits=256/256
+Oct  8 17:35:02 dhcpserver sendmail[23131]: STARTTLS=server, relay=localhost [127.0.0.1], version=TLSv1.3, verify=NOT, cipher=TLS_AES_256_GCM_SHA384, bits=256/256
+Oct  8 17:35:02 dhcpserver sendmail[23131]: 598C52kB023131: from=<rdomain@rdomain.in>, size=357, class=0, nrcpts=1, msgid=<202510081205.598C5253023130@rdomain.in>, proto=ESMTPS, daemon=MTA, relay=localhost [127.0.0.1]
+Oct  8 17:35:02 dhcpserver sendmail[23130]: 598C5253023130: to=sdomain@sdomain.in, ctladdr=rdomain (1006/1006), delay=00:00:00, xdelay=00:00:00, mailer=relay, pri=30132, relay=[127.0.0.1] [127.0.0.1], dsn=2.0.0, stat=Sent (598C52kB023131 Message accepted for delivery)
+Oct  8 17:35:03 dhcpserver sendmail[23133]: STARTTLS=client, relay=smtp.secureserver.net., version=TLSv1.2, verify=OK, cipher=ECDHE-RSA-AES256-GCM-SHA384, bits=256/256
+Oct  8 17:35:04 dhcpserver sendmail[23133]: 598C52kB023131: to=<sdomain@sdomain.in>, ctladdr=<rdomain@rdomain.in> (1006/1006), delay=00:00:02, xdelay=00:00:02, mailer=esmtp, pri=30357, relay=smtp.secureserver.net. [92.204.80.0], dsn=5.1.1, reply=550 5.1.1 <sdomain@sdomain.in> Recipient not found.  <https://www.secureserver.net/help/fix-rejected-email-with-a-bounce-error-40685?pl_id=3153&prog_id=3153#irb>, stat=User unknown
+Oct  8 17:35:04 dhcpserver sendmail[23133]: 598C52kB023131: 598C54kA023133: DSN: User unknown
+Oct  8 17:35:04 dhcpserver sendmail[23133]: 598C54kA023133: to=<rdomain@rdomain.in>, delay=00:00:00, xdelay=00:00:00, mailer=local, pri=31381, dsn=2.0.0, stat=Sent
+Oct  8 17:35:06 dhcpserver sendmail[23136]: NOQUEUE: SYSERR(rdomain): can not chdir(/var/spool/mqueue/): Permission denied
+Oct  8 18:57:20 dhcpserver sendmail[25349]: 598DRKvB025349: from=rdomain, size=121, class=0, nrcpts=1, msgid=<202510081327.598DRKvB025349@rdomain.in>, relay=rdomain@localhost
+Oct  8 18:57:20 dhcpserver sendmail[25349]: STARTTLS=client, relay=[127.0.0.1], version=TLSv1.3, verify=FAIL, cipher=TLS_AES_256_GCM_SHA384, bits=256/256
+Oct  8 18:57:20 dhcpserver sendmail[25350]: STARTTLS=server, relay=localhost [127.0.0.1], version=TLSv1.3, verify=NOT, cipher=TLS_AES_256_GCM_SHA384, bits=256/256
+Oct  8 18:57:21 dhcpserver sendmail[25350]: 598DRKxn025350: from=<rdomain@rdomain.in>, size=346, class=0, nrcpts=1, msgid=<202510081327.598DRKvB025349@rdomain.in>, proto=ESMTPS, daemon=MTA, relay=localhost [127.0.0.1]
+Oct  8 18:57:21 dhcpserver sendmail[25349]: 598DRKvB025349: to=sdomain@sdomain.in, ctladdr=rdomain (1006/1006), delay=00:00:01, xdelay=00:00:01, mailer=relay, pri=30121, relay=[127.0.0.1] [127.0.0.1], dsn=2.0.0, stat=Sent (598DRKxn025350 Message accepted for delivery)
+Oct  8 18:57:23 dhcpserver sendmail[25352]: STARTTLS=client, relay=smtp.secureserver.net., version=TLSv1.2, verify=OK, cipher=ECDHE-RSA-AES256-GCM-SHA384, bits=256/256
+Oct  8 18:57:24 dhcpserver sendmail[25352]: 598DRKxn025350: to=<sdomain@sdomain.in>, ctladdr=<rdomain@rdomain.in> (1006/1006), delay=00:00:03, xdelay=00:00:03, mailer=esmtp, pri=30346, relay=smtp.secureserver.net. [92.204.80.0], dsn=5.1.1, reply=550 5.1.1 <sdomain@sdomain.in> Recipient not found.  <https://www.secureserver.net/help/fix-rejected-email-with-a-bounce-error-40685?pl_id=3153&prog_id=3153#irb>, stat=User unknown
+Oct  8 18:57:24 dhcpserver sendmail[25352]: 598DRKxn025350: 598DROxm025352: DSN: User unknown
+Oct  8 18:57:24 dhcpserver sendmail[25352]: 598DROxm025352: to=<rdomain@rdomain.in>, delay=00:00:00, xdelay=00:00:00, mailer=local, pri=31370, dsn=2.0.0, stat=Sent
+^C
+root@rdomain:~# vi /etc/mail/sendmail.mc 
+root@rdomain:~# !m4
+-bash: !m4: event not found
+root@rdomain:~# m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf 
+root@rdomain:~# systemctl restart sendmail
+Warning: The unit file, source configuration file or drop-ins of sendmail.service changed on disk. Run 'systemctl daemon-reload' to reload units.
+root@rdomain:~# systemctl restart sendmail
+Warning: The unit file, source configuration file or drop-ins of sendmail.service changed on disk. Run 'systemctl daemon-reload' to reload units.
+root@rdomain:~# systemctl daemon-reload 
+root@rdomain:~# systemctl restart sendmail
+root@rdomain:~# su rdomain 
+rdomain@rdomain:/root$ mailx -s "From RDomain 19:03" sdomain@sdomain.in
+To: sdomain@sdomain.in
+Subject: From RDomain 19:03
+
+hi
+^D
+-------
+(Preliminary) Envelope contains:
+To: sdomain@sdomain.in
+Subject: From RDomain 19:03
+Send this message [yes/no, empty: recompose]? yes
+rdomain@rdomain:/root$ 
+rdomain@rdomain:/root$ mailq^C
+rdomain@rdomain:/root$ exit
+exit
+root@rdomain:~# vi /etc/mail/sendmail.mc 
+root@rdomain:~# su rdomain
+rdomain@rdomain:/root$ less /var/spool/mail/rdomain
+rdomain@rdomain:/root$ exit
+exit
+root@rdomain:~# vi /etc/mail/sendmail.mc 
+root@rdomain:~# vi /etc/mail/sendmail.
+
+

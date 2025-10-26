@@ -1,0 +1,514 @@
+player1@localhost:~$ hostnamectl hostname sdomain.in
+player1@localhost:~$ /bin/bash
+player1@sdomain:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:fd:e1:5e brd ff:ff:ff:ff:ff:ff
+    altname enx080027fde15e
+    inet 11.11.11.3/24 brd 11.11.11.255 scope global noprefixroute enp0s3
+       valid_lft forever preferred_lft forever
+    inet6 fe80::fa96:ec49:d4fa:73ed/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+player1@sdomain:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:fd:e1:5e brd ff:ff:ff:ff:ff:ff
+    altname enx080027fde15e
+    inet 192.168.2.32/22 brd 192.168.3.255 scope global dynamic noprefixroute enp0s3
+       valid_lft 596sec preferred_lft 596sec
+    inet6 fe80::fa96:ec49:d4fa:73ed/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+player1@sdomain:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:fd:e1:5e brd ff:ff:ff:ff:ff:ff
+    altname enx080027fde15e
+    inet 192.168.2.32/22 brd 192.168.3.255 scope global dynamic noprefixroute enp0s3
+       valid_lft 563sec preferred_lft 563sec
+    inet6 fe80::fa96:ec49:d4fa:73ed/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+player1@sdomain:~$ ;
+player1@sdomain:~$ sudo su -
+[sudo] password for player1: 
+Last login: Tue Oct  7 18:14:09 IST 2025 on pts/1
+root@sdomain:~# dnf update -y
+CentOS Stream 10 - BaseOS                                                                                                                                            3.9 kB/s | 4.5 kB     00:01    
+CentOS Stream 10 - AppStream                                                                                                                                         5.2 kB/s | 4.6 kB     00:00    
+CentOS Stream 10 - Extras packages                                                                                                                                    68 kB/s | 6.3 kB     00:00    
+Dependencies resolved.
+Nothing to do.
+Complete!
+root@sdomain:~# dnf install epel-release
+Last metadata expiration check: 0:00:57 ago on Wednesday 08 October 2025 03:09:14 PM.
+Package epel-release-10-6.el10_0.noarch is already installed.
+Dependencies resolved.
+Nothing to do.
+Complete!
+root@sdomain:~# dnf install sendmail sendmail-cf
+Last metadata expiration check: 0:03:16 ago on Wednesday 08 October 2025 03:09:14 PM.
+Dependencies resolved.
+=====================================================================================================================================================================================================
+ Package                                         Architecture                               Version                                              Repository                                     Size
+=====================================================================================================================================================================================================
+Installing:
+ sendmail                                        x86_64                                     8.18.1-4.el10_0                                      epel                                          761 k
+ sendmail-cf                                     noarch                                     8.18.1-4.el10_0                                      epel                                          153 k
+Installing dependencies:
+ cyrus-sasl                                      x86_64                                     2.1.28-27.el10                                       baseos                                         73 k
+ m4                                              x86_64                                     1.4.19-11.el10                                       appstream                                     305 k
+ procmail                                        x86_64                                     3.24-8.el10                                          appstream                                     184 k
+ tinycdb                                         x86_64                                     0.80-4.el10                                          appstream                                      33 k
+
+Transaction Summary
+=====================================================================================================================================================================================================
+Install  6 Packages
+
+Total download size: 1.5 M
+Installed size: 3.7 M
+Is this ok [y/N]: y
+Downloading Packages:
+(1/6): procmail-3.24-8.el10.x86_64.rpm                                                                                                                               164 kB/s | 184 kB     00:01    
+(2/6): m4-1.4.19-11.el10.x86_64.rpm                                                                                                                                  271 kB/s | 305 kB     00:01    
+(3/6): cyrus-sasl-2.1.28-27.el10.x86_64.rpm                                                                                                                           59 kB/s |  73 kB     00:01    
+(4/6): tinycdb-0.80-4.el10.x86_64.rpm                                                                                                                                 86 kB/s |  33 kB     00:00    
+(5/6): sendmail-cf-8.18.1-4.el10_0.noarch.rpm                                                                                                                        231 kB/s | 153 kB     00:00    
+(6/6): sendmail-8.18.1-4.el10_0.x86_64.rpm                                                                                                                           382 kB/s | 761 kB     00:01    
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                                                                                386 kB/s | 1.5 MB     00:03     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                                                                                                                             1/1 
+  Installing       : tinycdb-0.80-4.el10.x86_64                                                                                                                                                  1/6 
+  Installing       : procmail-3.24-8.el10.x86_64                                                                                                                                                 2/6 
+  Installing       : m4-1.4.19-11.el10.x86_64                                                                                                                                                    3/6 
+  Running scriptlet: cyrus-sasl-2.1.28-27.el10.x86_64                                                                                                                                            4/6 
+  Installing       : cyrus-sasl-2.1.28-27.el10.x86_64                                                                                                                                            4/6 
+  Running scriptlet: cyrus-sasl-2.1.28-27.el10.x86_64                                                                                                                                            4/6 
+  Running scriptlet: sendmail-8.18.1-4.el10_0.x86_64                                                                                                                                             5/6 
+  Installing       : sendmail-8.18.1-4.el10_0.x86_64                                                                                                                                             5/6 
+  Running scriptlet: sendmail-8.18.1-4.el10_0.x86_64                                                                                                                                             5/6 
+  Installing       : sendmail-cf-8.18.1-4.el10_0.noarch                                                                                                                                          6/6 
+  Running scriptlet: sendmail-cf-8.18.1-4.el10_0.noarch                                                                                                                                          6/6 
+
+Installed:
+  cyrus-sasl-2.1.28-27.el10.x86_64   m4-1.4.19-11.el10.x86_64   procmail-3.24-8.el10.x86_64   sendmail-8.18.1-4.el10_0.x86_64   sendmail-cf-8.18.1-4.el10_0.noarch   tinycdb-0.80-4.el10.x86_64  
+
+Complete!
+root@sdomain:~# vi /etc/mail/sendmail.mc
+root@sdomain:~# m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
+root@sdomain:~# systemctl restart sendmail
+root@sdomain:~# netstat -pant
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:2049            0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:20048           0.0.0.0:*               LISTEN      1536/rpc.mountd     
+tcp        0      0 0.0.0.0:514             0.0.0.0:*               LISTEN      1520/rsyslogd       
+tcp        0      0 0.0.0.0:41823           0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      1/systemd           
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      1476/sshd: /usr/sbi 
+tcp        0      0 0.0.0.0:25              0.0.0.0:*               LISTEN      6005/sendmail: acce 
+tcp        0      0 127.0.0.1:631           0.0.0.0:*               LISTEN      1470/cupsd          
+tcp        0      0 0.0.0.0:58811           0.0.0.0:*               LISTEN      1527/rpc.statd      
+tcp6       0      0 :::2049                 :::*                    LISTEN      -                   
+tcp6       0      0 :::20048                :::*                    LISTEN      1536/rpc.mountd     
+tcp6       0      0 :::40227                :::*                    LISTEN      -                   
+tcp6       0      0 :::514                  :::*                    LISTEN      1520/rsyslogd       
+tcp6       0      0 :::9090                 :::*                    LISTEN      1/systemd           
+tcp6       0      0 :::41917                :::*                    LISTEN      1527/rpc.statd      
+tcp6       0      0 :::80                   :::*                    LISTEN      1553/httpd          
+tcp6       0      0 :::111                  :::*                    LISTEN      1/systemd           
+tcp6       0      0 :::22                   :::*                    LISTEN      1476/sshd: /usr/sbi 
+tcp6       0      0 :::443                  :::*                    LISTEN      1553/httpd          
+tcp6       0      0 ::1:631                 :::*                    LISTEN      1470/cupsd          
+root@sdomain:~# vi /etc/hosts
+root@sdomain:~# systemctl stop firewalld
+root@sdomain:~# iptables -f
+iptables v1.8.11 (nf_tables): no command specified
+Try `iptables -h' or 'iptables --help' for more information.
+root@sdomain:~# iptables -F
+root@sdomain:~# useradd sdomain
+root@sdomain:~# passwd sdomain
+New password: 
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: 
+passwd: password updated successfully
+root@sdomain:~# cd /var/spool/mail
+root@sdomain:/var/spool/mail# ls
+atharv  ayush  player1  player2  rpc  sdomain
+root@sdomain:/var/spool/mail# dnf install s-nail -y
+Last metadata expiration check: 0:13:02 ago on Wednesday 08 October 2025 03:09:14 PM.
+Dependencies resolved.
+=====================================================================================================================================================================================================
+ Package                                     Architecture                                Version                                                Repository                                      Size
+=====================================================================================================================================================================================================
+Installing:
+ s-nail                                      x86_64                                      14.9.24-12.el10                                        appstream                                      634 k
+
+Transaction Summary
+=====================================================================================================================================================================================================
+Install  1 Package
+
+Total download size: 634 k
+Installed size: 1.2 M
+Downloading Packages:
+s-nail-14.9.24-12.el10.x86_64.rpm                                                                                                                                    620 kB/s | 634 kB     00:01    
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                                                                                336 kB/s | 634 kB     00:01     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                                                                                                                             1/1 
+  Running scriptlet: s-nail-14.9.24-12.el10.x86_64                                                                                                                                               1/1 
+  Installing       : s-nail-14.9.24-12.el10.x86_64                                                                                                                                               1/1 
+  Running scriptlet: s-nail-14.9.24-12.el10.x86_64                                                                                                                                               1/1 
+
+Installed:
+  s-nail-14.9.24-12.el10.x86_64                                                                                                                                                                      
+
+Complete!
+root@sdomain:/var/spool/mail# su sdomain
+sdomain@sdomain:/var/spool/mail$ dnf install s-nail -y
+Error: This command has to be run with superuser privileges (under the root user on most systems).
+sdomain@sdomain:/var/spool/mail$ sudo dnf install s-nail -y
+
+We trust you have received the usual lecture from the local System
+Administrator. It usually boils down to these three things:
+
+    #1) Respect the privacy of others.
+    #2) Think before you type.
+    #3) With great power comes great responsibility.
+
+For security reasons, the password you type will not be visible.
+
+[sudo] password for sdomain: 
+sdomain is not in the sudoers file.
+This incident has been reported to the administrator.
+sdomain@sdomain:/var/spool/mail$ sudo su -
+[sudo] password for sdomain: 
+sdomain is not in the sudoers file.
+This incident has been reported to the administrator.
+sdomain@sdomain:/var/spool/mail$ mailx -s "Test@17:13" rdomain@rdomain.in
+To: rdomain@rdomain.in
+Subject: Test@17:13
+
+Testing first time @ Sendmail
+^D
+-------
+(Preliminary) Envelope contains:
+To: rdomain@rdomain.in
+Subject: Test@17:13
+Send this message [yes/no, empty: recompose]? yes
+You have new mail in /var/spool/mail/root
+sdomain@sdomain:/var/spool/mail$ mailq
+can not chdir(/var/spool/mqueue/): Permission denied
+Program mode requires special privileges, e.g., root or TrustedUser.
+sdomain@sdomain:/var/spool/mail$ ls
+atharv  ayush  player1  player2  root  rpc  sdomain
+sdomain@sdomain:/var/spool/mail$ ls
+atharv  ayush  player1  player2  root  rpc  sdomain
+sdomain@sdomain:/var/spool/mail$ ls
+atharv  ayush  player1  player2  root  rpc  sdomain
+sdomain@sdomain:/var/spool/mail$ ls
+atharv  ayush  player1  player2  root  rpc  sdomain
+sdomain@sdomain:/var/spool/mail$ cat root
+cat: root: Permission denied
+sdomain@sdomain:/var/spool/mail$ sudo cat root
+[sudo] password for sdomain: 
+From sdomain@sdomain.in  Wed Oct  8 17:11:23 2025
+Return-Path: <sdomain@sdomain.in>
+Received: from sdomain.in (localhost [127.0.0.1])
+	by sdomain.in (8.18.1/8.18.1) with ESMTPS id 598BfMSU009584
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <root@sdomain.in>; Wed, 8 Oct 2025 17:11:23 +0530
+Received: (from sdomain@localhost)
+	by sdomain.in (8.18.1/8.18.1/Submit) id 598BfMjr009583;
+	Wed, 8 Oct 2025 17:11:22 +0530
+Date: Wed, 8 Oct 2025 17:11:22 +0530
+Message-Id: <202510081141.598BfMjr009583@sdomain.in>
+To: root@sdomain.in
+From: sdomain@sdomain.in
+Auto-Submitted: auto-generated
+Subject: *** SECURITY information for sdomain.in ***
+
+sdomain.in : Oct  8 17:11:22 : sdomain : user NOT in sudoers ; TTY=pts/0 ; PWD=/var/spool/mail ; USER=root ; COMMAND=/bin/dnf install s-nail -y
+
+From sdomain@sdomain.in  Wed Oct  8 17:11:36 2025
+Return-Path: <sdomain@sdomain.in>
+Received: from sdomain.in (localhost [127.0.0.1])
+	by sdomain.in (8.18.1/8.18.1) with ESMTPS id 598BfaaD009598
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <root@sdomain.in>; Wed, 8 Oct 2025 17:11:36 +0530
+Received: (from sdomain@localhost)
+	by sdomain.in (8.18.1/8.18.1/Submit) id 598BfaIe009597;
+	Wed, 8 Oct 2025 17:11:36 +0530
+Date: Wed, 8 Oct 2025 17:11:36 +0530
+Message-Id: <202510081141.598BfaIe009597@sdomain.in>
+To: root@sdomain.in
+From: sdomain@sdomain.in
+Auto-Submitted: auto-generated
+Subject: *** SECURITY information for sdomain.in ***
+
+sdomain.in : Oct  8 17:11:36 : sdomain : user NOT in sudoers ; TTY=pts/0 ; PWD=/var/spool/mail ; USER=root ; COMMAND=/bin/su -
+
+sdomain@sdomain:/var/spool/mail$ systemctl restart sendmain
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ====
+Authentication is required to restart 'sendmain.service'.
+Multiple identities can be used for authentication:
+ 1.  Player1 (player1)
+ 2.  Atharv  (atharv)
+Choose identity to authenticate as (1-2): ^C
+sdomain@sdomain:/var/spool/mail$ systemctl restart sendmail
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ====
+Authentication is required to restart 'sendmail.service'.
+Multiple identities can be used for authentication:
+ 1.  Player1 (player1)
+ 2.  Atharv  (atharv)
+Choose identity to authenticate as (1-2): 1
+Password: 
+==== AUTHENTICATION COMPLETE ====
+sdomain@sdomain:/var/spool/mail$ systemctl restart sendmail
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ====
+Authentication is required to restart 'sendmail.service'.
+Multiple identities can be used for authentication:
+ 1.  Player1 (player1)
+ 2.  Atharv  (atharv)
+Choose identity to authenticate as (1-2): 2
+Password: 
+polkit-agent-helper-1: pam_authenticate failed: Authentication failure
+==== AUTHENTICATION FAILED ====
+Failed to restart sendmail.service: Access denied
+See system logs and 'systemctl status sendmail.service' for details.
+sdomain@sdomain:/var/spool/mail$ ls
+atharv  ayush  player1  player2  root  rpc  sdomain
+sdomain@sdomain:/var/spool/mail$ cat sdomain
+From MAILER-DAEMON@sdomain.in  Wed Oct  8 17:14:42 2025
+Return-Path: <MAILER-DAEMON@sdomain.in>
+Received: from localhost (localhost)
+	by sdomain.in (8.18.1/8.18.1) id 598Big82009731;
+	Wed, 8 Oct 2025 17:14:42 +0530
+Date: Wed, 8 Oct 2025 17:14:42 +0530
+From: Mail Delivery Subsystem <MAILER-DAEMON@sdomain.in>
+Message-Id: <202510081144.598Big82009731@sdomain.in>
+To: <sdomain@sdomain.in>
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="598Big82009731.1759923882/sdomain.in"
+Subject: Returned mail: see transcript for details
+Auto-Submitted: auto-generated (failure)
+
+This is a MIME-encapsulated message
+
+--598Big82009731.1759923882/sdomain.in
+
+The original message was received at Wed, 8 Oct 2025 17:14:42 +0530
+from localhost [127.0.0.1]
+
+   ----- The following addresses had permanent fatal errors -----
+<rdomain@rdomain.in>
+    (reason: 550 Host unknown)
+
+   ----- Transcript of session follows -----
+550 5.1.2 <rdomain@rdomain.in>... Host unknown (Name server: rdomain.in: host not found)
+
+--598Big82009731.1759923882/sdomain.in
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; sdomain.in
+Received-From-MTA: DNS; localhost
+Arrival-Date: Wed, 8 Oct 2025 17:14:42 +0530
+
+Final-Recipient: RFC822; rdomain@rdomain.in
+X-Actual-Recipient: rfc822; rdomain@rdomain.in
+Action: failed
+Status: 5.1.2
+Remote-MTA: DNS; rdomain.in
+Diagnostic-Code: SMTP; 550 Host unknown
+Last-Attempt-Date: Wed, 8 Oct 2025 17:14:42 +0530
+
+--598Big82009731.1759923882/sdomain.in
+Content-Type: message/rfc822
+
+Return-Path: <sdomain@sdomain.in>
+Received: from sdomain.in (localhost [127.0.0.1])
+	by sdomain.in (8.18.1/8.18.1) with ESMTPS id 598Big83009729
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <rdomain@rdomain.in>; Wed, 8 Oct 2025 17:14:42 +0530
+Received: (from sdomain@localhost)
+	by sdomain.in (8.18.1/8.18.1/Submit) id 598BigUG009728
+	for rdomain@rdomain.in; Wed, 8 Oct 2025 17:14:42 +0530
+From: sdomain@sdomain.in
+Message-Id: <202510081144.598BigUG009728@sdomain.in>
+Date: Wed, 08 Oct 2025 17:14:42 +0530
+To: rdomain@rdomain.in
+Subject: Test@17:13
+User-Agent: s-nail v14.9.24
+
+Testing first time @ Sendmail
+
+--598Big82009731.1759923882/sdomain.in--
+
+sdomain@sdomain:/var/spool/mail$ systemctl restart sendmail sendmail-cf
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ====
+Authentication is required to restart 'sendmail.service'.
+Multiple identities can be used for authentication:
+ 1.  Player1 (player1)
+ 2.  Atharv  (atharv)
+Choose identity to authenticate as (1-2): Failed to restart sendmail.service: Connection timed out
+See system logs and 'systemctl status sendmail.service' for details.
+Failed to restart sendmail-cf.service: Method call timed out
+See system logs and 'systemctl status sendmail-cf.service' for details.
+sdomain@sdomain:/var/spool/mail$ hostname
+sdomain.in
+sdomain@sdomain:/var/spool/mail$ dig MX sdomain.in
+
+; <<>> DiG 9.18.33 <<>> MX sdomain.in
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 53505
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 7a3aaefbfdda0e630100000068e65e2f59c165703dcb710d (good)
+;; QUESTION SECTION:
+;sdomain.in.			IN	MX
+
+;; ANSWER SECTION:
+sdomain.in.		3600	IN	MX	1 mail.sdomain.in.
+
+;; ADDITIONAL SECTION:
+mail.sdomain.in.	3600	IN	A	192.168.2.32
+
+;; Query time: 3 msec
+;; SERVER: 192.168.3.146#53(192.168.3.146) (UDP)
+;; WHEN: Wed Oct 08 18:20:57 IST 2025
+;; MSG SIZE  rcvd: 104
+
+sdomain@sdomain:/var/spool/mail$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:fd:e1:5e brd ff:ff:ff:ff:ff:ff
+    altname enx080027fde15e
+    inet 192.168.2.32/22 brd 192.168.3.255 scope global dynamic noprefixroute enp0s3
+       valid_lft 428sec preferred_lft 428sec
+    inet6 fe80::fa96:ec49:d4fa:73ed/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+sdomain@sdomain:/var/spool/mail$ id sdomain
+uid=1006(sdomain) gid=1006(sdomain) groups=1006(sdomain)
+sdomain@sdomain:/var/spool/mail$ vi /etc/mail/sendmail.mc 
+
+
+Press ENTER or type command to continue
+sdomain@sdomain:/var/spool/mail$ exit
+exit
+You have mail in /var/spool/mail/root
+root@sdomain:/var/spool/mail# 
+root@sdomain:/var/spool/mail# ll
+total 8
+-rw-rw----. 1 atharv  mail    0 Sep 18 12:12 atharv
+-rw-rw----. 1 ayush   mail    0 Sep 19 02:32 ayush
+-rw-rw----. 1 player1 mail    0 Sep 18 09:30 player1
+-rw-rw----. 1 player2 mail    0 Sep 18 12:30 player2
+-rw-------. 1 root    root 1599 Oct  8 17:11 root
+-rw-rw----. 1 rpc     mail    0 Sep 24 00:23 rpc
+-rw-rw----. 1 sdomain mail 2212 Oct  8 17:14 sdomain
+root@sdomain:/var/spool/mail# vi /etc/
+Display all 256 possibilities? (y or n)
+root@sdomain:/var/spool/mail# ls -l  /etc/mail/sendmail.mc 
+-rw-r--r--. 1 root root 7385 Oct  8 15:14 /etc/mail/sendmail.mc
+root@sdomain:/var/spool/mail# ls -l  /etc/mail/sendmail.cf
+-rw-r--r--. 1 root root 60832 Oct  8 15:14 /etc/mail/sendmail.cf
+root@sdomain:/var/spool/mail# vi /etc/hosts
+root@sdomain:/var/spool/mail# nslookup 
+> server
+Default server: 192.168.3.146
+Address: 192.168.3.146#53
+> set type=MX
+> sdomain.in
+Server:		192.168.3.146
+Address:	192.168.3.146#53
+
+sdomain.in	mail exchanger = 1 mail.sdomain.in.
+> set type=A
+> mail.sdomain.in
+Server:		192.168.3.146
+Address:	192.168.3.146#53
+
+Name:	mail.sdomain.in
+Address: 192.168.2.32
+> exit
+
+root@sdomain:/var/spool/mail# ifconfig 
+enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.2.32  netmask 255.255.252.0  broadcast 192.168.3.255
+        inet6 fe80::fa96:ec49:d4fa:73ed  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:fd:e1:5e  txqueuelen 1000  (Ethernet)
+        RX packets 290465  bytes 143285450 (136.6 MiB)
+        RX errors 0  dropped 6950  overruns 0  frame 0
+        TX packets 4411  bytes 1330391 (1.2 MiB)
+        TX errors 0  dropped 1 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 1440  bytes 128688 (125.6 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1440  bytes 128688 (125.6 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+root@sdomain:/var/spool/mail# less /var/log/maillog
+root@sdomain:/var/spool/mail# tail -f /var/log/maillog
+Oct  8 17:14:42 localhost sendmail[9729]: STARTTLS=server, relay=localhost [127.0.0.1], version=TLSv1.3, verify=NOT, cipher=TLS_AES_256_GCM_SHA384, bits=256/256
+Oct  8 17:14:42 localhost sendmail[9729]: 598Big83009729: from=<sdomain@sdomain.in>, size=365, class=0, nrcpts=1, msgid=<202510081144.598BigUG009728@sdomain.in>, proto=ESMTPS, daemon=MTA, relay=localhost [127.0.0.1]
+Oct  8 17:14:42 localhost sendmail[9728]: 598BigUG009728: to=rdomain@rdomain.in, ctladdr=sdomain (1006/1006), delay=00:00:00, xdelay=00:00:00, mailer=relay, pri=30140, relay=[127.0.0.1] [127.0.0.1], dsn=2.0.0, stat=Sent (598Big83009729 Message accepted for delivery)
+Oct  8 17:14:42 localhost sendmail[9731]: 598Big83009729: to=<rdomain@rdomain.in>, ctladdr=<sdomain@sdomain.in> (1006/1006), delay=00:00:00, xdelay=00:00:00, mailer=esmtp, pri=30365, relay=rdomain.in, dsn=5.1.2, stat=Host unknown (Name server: rdomain.in: host not found)
+Oct  8 17:14:42 localhost sendmail[9731]: 598Big83009729: 598Big82009731: DSN: Host unknown (Name server: rdomain.in: host not found)
+Oct  8 17:14:42 localhost sendmail[9731]: 598Big82009731: to=<sdomain@sdomain.in>, delay=00:00:00, xdelay=00:00:00, mailer=local, pri=31389, dsn=2.0.0, stat=Sent
+Oct  8 17:30:20 localhost sendmail[10132]: NOQUEUE: SYSERR(sdomain): can not chdir(/var/spool/mqueue/): Permission denied
+Oct  8 17:37:19 localhost sendmail[10537]: starting daemon (8.18.1): SMTP+queueing@01:00:00
+Oct  8 17:37:19 localhost sm-msp-queue[10565]: starting daemon (8.18.1): queueing@01:00:00
+Oct  8 18:23:05 localhost sendmail[12802]: 598Cr50s012802: [192.168.2.165] did not issue MAIL/EXPN/VRFY/ETRN during connection to MTA
+^C
+root@sdomain:/var/spool/mail# su sdomain
+sdomain@sdomain:/var/spool/mail$ less /var/spool/mail/sdomain 
+sdomain@sdomain:/var/spool/mail$ mailx -s "hello 19.06" rdomain@rdomain.in
+To: rdomain@rdomain.in
+Subject: hello 19.06
+
+hi
+^D
+-------
+(Preliminary) Envelope contains:
+To: rdomain@rdomain.in
+Subject: hello 19.06
+Send this message [yes/no, empty: recompose]? yes
+sdomain@sdomain:/var/spool/mail$ less /var/spool/mail/sdomain 
+sdomain@sdomain:/var/spool/mail$ 
+
+
