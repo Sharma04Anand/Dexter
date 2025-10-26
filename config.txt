@@ -438,6 +438,47 @@ vi httpd.conf
 Add listening port
 cd /var/www/html
 Add a webpage
+______________________________________________
+virtual hosting
+#dnf install mod_ssl openssl -y
+#cd /etc/httpd/conf.d
+#vi ditiss.conf
+<VirtualHost *:4000>
+	SSLEngine: on
+	SSLCertificateFile /etc/pki/tls/certs/ditiss.cert
+	SSLCertificateKeyFile /etc/pki/tls/Private/ditiss.key
+	ServerName ditiss.cdac
+	ServerAlias ditiss.cdac
+	DocumentRoot /var/www/html/ditiss-html/
+	<Directory /var/www/html/ditiss-html>
+		option -Indexes -FollowSymLinks
+		AllowOverride All
+	</Directory>
+</VirtulHost>
+#mkdir /var/www/ditiss-html
+#vi index.html
+<---make html page--->
+#vi /etc/httpd/conf/httpd.conf
+	listen 4000
+<change path /directory>
+#cd /etc/pki/tls/Private
+#touch ditiss.key
+#openssl req -X509 -nodes -days 365 -newkey rsa:2048 -keyout ditiss.key -out /etc/pki/tls/certs/ditiss.cert
+IN
+KA
+BLR
+COMP
+Comp
+citiss.cdac
+comp@mil.com
+
+#setenforce 0
+#systemctl stop firewalld
+iptables -F
+systemctl restart httpd
+systemctl status httpd
+open browser and check
+
 
 ###########################################
 27. NTP
@@ -793,6 +834,7 @@ leave it
 		#wget www.google.com
 		#wget www.netflix.com
 		#tail -f -n 5 /var/log/squid/access.log
+
 
 
 
