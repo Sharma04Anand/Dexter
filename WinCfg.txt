@@ -1,0 +1,685 @@
+#######################################
+Windows Practicals
+
+#######################################
+AADDC
+How to add and AADDC to existing domain
+
+#######################################
+WDS
+Install and configure WDS
+_________________________________________________________________________________
+Requiements
+1. DHCP should be available
+2. DNS should be available
+_________________________________________________________________________________
+
+1. Opne server manager and add WDS Role
+2. Select Windows Deployment service in Server Roles 
+(NTFS partition is must)
+3. Configure WDS
+	Download ISO file in windows server of WIndows 11
+	Right Click on Iso file and mount it
+4. Go to tools and go to WDS
+5. Right Click on system name
+6. Click Configure
+7. Click Next
+8. Since we dont have AD we will stalect standalone server, click next
+9.  Remote installation folder: NTFS Folder in Destination machine where the windows will be installed, click next
+10. Check both boxes if DHCP server is running.
+11. PXE server initial settings
+	- respond to all client computers (known and unknown) - NExt
+12. Configuration is done - Finish
+13. Add boot and install images of the OS
+	Right Click on Install images in the System name, click on Add install image
+	Browse the mounted install location -> sources -> install.wim => Open => Next
+	Select everything click NExt
+	Click Next. Clcik Finish.
+	This image will be added in the WDS Server.
+	
+	Right CLick on Boot images is the system name, click on add install imagd
+	Browse the mounted install location -> sources -> boot.wim => Open => Next
+	Select click NExt on everything 
+	Click Next. Clcik Finish.
+	This image will be added in the WDS Server.
+14. Open Properties of the System Name(WDS)
+	Right click on the system name
+	Go in boot
+	Known Clients:
+		Always continue the PXE Boot
+	UnKnown Clients:
+		Always continue the PXE Boot
+15. Apply
+16. Restart the WDS Server
+_________________________________________________________________________________
+Create a client VM
+Do not give ISO image
+Go to system
+	Uncheck UEFI and Secureboot
+	Add Network as first boot device
+Go to network.
+	Select Internal Network
+Save and boot the system
+
+#######################################
+DHCP
+Install and COnfigure DHCP server on WIndows 2025
+Step 1: Create a separate network for DHCP on virtual Box
+Step 2: Select Internal Network
+Step 3:  Assign an IP address to the system 1192.168.100.1. (Static IP 192.168.100.0/24)
+	Pool --> 192.168.100.2 - 192.168.100.254
+Step 4: Install the DHCP Role in Windows Serer 2025
+	Server manager
+	Manage
+	Add roles and Features
+	Add server role -DHCP
+	Next
+	Read DHCP text
+	Next and Install
+	After the install COmplete the configuration of the DHCP server
+	Click Commit
+Step 5: Configure DHCP server
+	Go to tools and then DHCP
+	DHCP is running for IPV4 and IPv6
+	Right lcick on IPv4 and click on New Scope
+	Add name and description
+	Add Ip address range
+	Add exclusion and Delay (Optional)
+	Define LEase period
+	Configure dhcp options
+		Selct yes
+		Ip address of default gateway (100.50)
+		Domain name and DNS Server
+		WINS server - next
+		Activate Scope - yes
+	Finish
+	Restart the DHCP Serer
+	
+
+
+#######################################
+Install And Configure Windows server 2025
+
+Recursive DNS Server(Caching only DNS Server)
+
+_________________________________________________________________________
+
+Step 1: Open Server Manager
+
+  Click on manage
+
+  Add Roles and Features
+
+  (wizard will open)
+
+Step 2: Click Next on Before You Begin
+
+  Select Installation Type as Role Based
+
+  Select Server
+
+  Select Server Role as DNS Server
+
+  Click Next on Features
+
+  Click Next on DNS Server
+
+  Confirm the DNS Server and Click Install
+
+  DNS Server will be Installed
+
+Step 3: Go to tools in Server manager
+
+  Go to DNS
+
+  Right Click on the system name and right click
+
+  Go to All Tasks and you'll see that DNS has already started
+
+  Stop the firewall (Search firewall in start)
+
+  Firewall and Network Protection
+
+ 
+
+Authoritative DNS Server, authayush.in, www.authayush.in ---192.168.1.1
+
+________________________________________________________________________
+
+Step 1: Click on Tools in Server Manager
+
+  Click on DNS
+
+Step 2: Inside DNS go to Forward Lookup Zones
+
+  Right Click on Forward Lookup Zone and Add New Zone
+
+  It will open a New Wizard
+
+  Click Next
+
+  Select Primary ZOne and click Next
+
+  Add the name of the zone = authayush.in
+
+  : zone file will created here: %SystemRoot%\system32\dns
+
+  Click Next.
+
+  Deny dynamic Updates. Click Next
+
+  Click On Finish.
+
+Step 3: Create a subdomain www.authayush.in
+
+  Right click on authayush.in and add the New Host (A or AAAA)..
+
+  Give name as www
+
+  Then give the ip 192.168.1.1
+
+  Click Add Host
+
+  The host record will be created
+
+  Check the record at %SystemRoot%\system32\dns
+
+Configure Forwarder DNS
+
+______________________________________________________________
+
+Step 1: Click on System name on DNS Manager
+
+  Step 2: Double Click on Forwarders
+
+  Step 3: Click On Edit and Add a forwarder
+
+  Step 4: Add the main DNS Server IP. 192.168.0.1
+
+  Step 5: Press Enter and the forwarder will be added
+
+  Step 6: Click OK, then Apply then OK.
+
+  Step 7: Restart the DNS Service
+
+Configure Conditional Forwarder DNS - moodle.blr1.cdac.in
+
+______________________________________________________________
+
+  Step 1: Remove the forwarder
+
+  Step 2: Click On System Name
+
+  Step 3: Right Click on conditional Forwarders
+
+  Step 4: Then Selct New Conditional Forwarders
+
+  Step 5: Add the DNS domain moodle.blr1.cdac.in and ip address as 192.168.0.1
+
+  Step 6: Press Enter and then click ok
+
+  Step 7: Restart the DNS
+
+Configure Stub Zone - google.com
+
+______________________________________________________________
+
+Step 1 : Right click on the system Name and then New zone
+
+  Step 2 : Click Next and Select Stub ZOne and click Next
+
+  Step 3 : Select Forward Lookup zone
+
+  Step 3 : Enter Zone Name: google.com
+
+  Step 4 : Create the new file and click Next
+
+  Step 5 : Find the name of cdac.in
+
+  Step 5.1 : nslookup
+
+  Step 5.2 : set type=NS
+
+  Step 5.3 : google.com
+
+  Step 6 : Select one DNS and add the ip of one ns to the "MAster zone wizard"
+
+  Step 7 : Press Enter and then click NExt
+
+  Step 8 : Click On FInish and then restart the service
+
+  Step 9 : After that check the DNS by pingng to www.google.com/mail.google.com
+
+#######################################
+DFS
+
+gpedit
+Computer Configuration > Administrative Template > Network > Lanman Workstation > Enable
+Computer Configuration > Windows > Security Settings > Local Policies > Security Options > Digitally Sign Communications
+
+if extended error occurred
+go to gpedit.msc
+
+DFS Configuration on Windows Server 2025
+_____________________________________________________________________
+1. Disable Digitally signed communication(Always)
+	open run command > gpedit.msc
+	 Computer Configuratiuon > Windows Settings > Security Settings > Local Policy > Security Options
+	Microsoft network client: Digitally sign communication(Always) :Disabled
+2. Open Server MAnager
+	Click on Manage > Add roles and features
+	Add Server Roles > Files and Storage Service > Files and iSCIS services > DFS Replication && DFS Namespaces > NEXT > NEXT > INSTALL
+3. Configure DFS
+	Tools > DFS Management
+	Right CLick on Namespace > New Namespace
+	New namespace wizard will open
+	Server: server IP
+	Name: Shared
+	Standalone/domain based
+	Create
+	Close
+	Rightclick on created namespace > New folder
+		name of the folder ditiss-share
+		Path to the folder : \\192.168.2.46\ditiss-COSA-share
+4. Go to client > Run
+	\\192.168.2.29\ > ip of DFS
+
+#######################################
+FSRM: File Server and Resource Manager
+```````````````````````````````````````````````
+Windows Server Feature
+_______________________________________________
+
+It enables you to manage and classify data stored on your file servers.
+Means
+Mange their file storage 
+Automatically classify files, perform task based on these classification :- 
+1) set quotas on folders and create reports. 
+2) monitoring storage usage.
+
+Installing FSRM :- 
+
+Step 1:- (No need of AD)
+Manage > Add roles and features > Next > select server > next > 
+	Server Roles > File Storage Services > File Server Resource Manager > NExt
+	Feature > Next
+	Confirmation >Install
+
+Step 2 : Crate a folder in C : test
+	Tools > File Server Resource Manager
+	File Server Resource Manager (Local) > Quota Templates
+	Right Click on Quota template and Create Quota Template
+	Template Name : testing-50Mb
+	Limit : 50 MB
+	Hard Quota
+	Notification when quota reaches:
+	Generate Logs:
+	Generate Reports:
+	Template will be created
+	Quota Management > Quotas > Crate Quota > 
+	Give path
+	select quota from quota template
+	Create
+		
+Step 3: 
+	File Screening Management
+#######################################
+IPAM
+In system is cloned and you want to change SID then do the follows:
+1. run command --> sysprep : run as admin
+2. Check on Generate and click OK.
+3.
+
+
+Install and Configure IPAM
+___________________________
+Step 1: Remove all the unnecessary roles.
+Step 2: Rename the system.
+Step 3: Connect the system in internal network.
+Step 4: Change IP address
+	Ip: 		192.168.100.1
+	Subnet: 	255.255.255.0
+	Gateway: 	192.168.100.254
+	DNS: 		192.168.100.1
+Step 5: Install ADDS and DNS together.
+	Configure the ADDS.
+Step 6: Configure DNS.
+Step 7: Add DHCP role
+Step 8: Configure DHCP role and authorize DHCP in AD.
+	Add scope
+	ip v4 - DITISS
+	Default gateway :100.254
+	
+Step 9: Configure IPAM on another server. Login as domain admin
+	Change network setting to internal
+	Remove all the unnecessary roles.
+	JOin this server to domain - ditiss.in(member server)
+Step 10: Install and configure IPAM
+Step 11: Add roles and features
+	in features Add IP address management
+
+Step 12: Click on the IPAM server and connect to IPAM server and configure
+IPAM uses WIndows Instenal Database
+Step 13: GPO name prefix : IPAM : NExt
+Step 14: Apply. Provisioning will begin.
+Step 15 Open Powershell/cmd as admin:
+	>Invoke-IPAMGPOProvisioning -Domain ditiss.in -GPOPrefixName IPAM -IPAMServerFQDN <name of the ipam Server Pc>
+Step 16: Configure Server discovery
+Step 17: open powershell and run as admin:> gpupdate /force
+Step 18: Afgain go to Confgure Server discovery, the forest and domain will show.
+Step 19: Click on Start server discovery
+Step 20: Select or add servers to manage and verify
+	Right Click on a server and click edit servers
+	then in server type click on DHCP server and then click on managed.
+Step 21: Open powershell as admin: Enter-PSSession -ComputerName <NAme>: PS C:\USers\administrator.DITISS\Documents> gpupdate /force
+#######################################
+NLB
+
+Step1: Install NLB from Manage>Add and Install features
+Step2: Install NLB on another NLB node using CLI.
+	Install-WindowsFeature NLB -IncludeManagementTools
+	Install-WindowsFeature Web-Server -IncludeManagementTools
+	
+
+Server1: 27.27.27.1 - NLB cluster
+Server2: 27.27.27.2 - Client
+
+In Server1: 
+Go to tools > Network Load Balancing Manager
+Right click on Network Load Balancing CLusters
+Add the Server Ip to the Host
+make sure that it is a static ip
+then next again next
+give your  cluster loadbalancer ip (27.27.27.3) Next
+Select Multicast :Next
+Edit port role: click on add
+uncheck all
+aDD your ip 
+from 80 to 80 port
+both protocol
+Multiple host filtering mode
+None Affinity
+then OK
+then click Finish
+
+Right click on the cluster name: add host to cluster 
+add the ip of the second (client) machine
+then set priority and add it to the cluster
+
+In client Server 2
+Install NLB server and IIs server
+(you have to give this servers ip in the cluster 1 ip in server 1)
+
+
+
+#######################################
+WIndows Server Backup
+_______________________________________________________________________________________________________________
+
+Configure Backup
+1. Manage
+2. Add roles and features
+3. Next
+4. Next
+5, Server ROles: 
+6: Features: Windows Server Backup : NExt
+7.  Install
+8. Close
+______________________________________________________________________________________________________________
+
+Tools > Windows Server Backup
+
+1. Right Click on the Local Backup on the navigation pane
+2. On th Action pane on the right
+	We can Schedule backip or take the backup once.
+	Also we CAN RESTORE THE BACKUOP
+For now: Take backup once
+1. make a partition hdd for backup
+2. Click on BAckp once
+3. Backup option:
+	Different options
+4. Select backuo
+5. Select Items for backup
+6. Select users(C:\) folder for backup
+7. Select Destination Type
+	7.1. Select Disk
+8. Confirmation
+9. Click Backup
+
+#######################################
+VPN
+Step 1: Open Server Manager
+Click Manage
+
+Select Add Roles and Features
+(The Add Roles and Features Wizard will open.)
+
+Step 2: Start Installation
+Click Next on Before You Begin
+
+Choose Role-based or feature-based installation
+
+Select your server from the list
+
+In Server Roles, select Remote Access
+
+Click Next on Features
+
+Step 3: Add VPN Role
+In the Remote Access role services window, select:
+
+DirectAccess and VPN (RAS)
+
+Click Next
+
+Accept default options and click Install
+
+Wait for installation to complete.
+
+Step 4: Configure Routing and Remote Access
+Go to Tools → Routing and Remote Access in the Server Manager
+
+Right-click your server name and select Configure and Enable Routing and Remote Access
+
+A wizard opens. Click Next.
+
+Step 5: Choose Configuration Type
+Select Custom Configuration, then click Next
+
+Check the boxes for:
+
+VPN access
+
+(Optionally) NAT if server connects to the internet
+
+Click Next, then Finish
+
+When prompted, Start the service.
+
+Step 6: Assign IP Address Range for Clients
+Right-click your server name → Properties
+
+Go to the IPv4 tab
+
+Choose Static address pool and click Add
+
+Add a range of IPs for VPN clients (e.g. 192.168.20.1 to 192.168.20.50)
+
+Click OK
+
+Step 7: Configure Authentication
+Go to the Security tab
+
+Ensure Authentication provider is set to Windows Authentication
+
+Click OK
+
+Step 8: Enable User Access
+Open Computer Management → Local Users and Groups → Users
+
+Right-click the user → Properties → Dial-in tab
+
+Select Allow access
+
+Click OK
+
+Step 9: Allow VPN Through Firewall
+Open Windows Firewall → Advanced Settings
+
+In Inbound Rules, enable:
+
+Routing and Remote Access (PPTP-In)
+
+Routing and Remote Access (L2TP-In)
+
+Save and exit
+
+Step 10: Verify VPN Functionality
+From a client system, open the Network Connections panel
+
+Create a new VPN connection pointing to the VPN server’s public IP or DNS name
+
+Enter credentials of a user allowed VPN access
+
+Click Connect
+
+If connected successfully, test internal resource access (e.g. ping internal IP).
+
+(Optional) Step 11: Configure NAT for Internet Sharing
+In Routing and Remote Access, expand IPv4 → NAT
+
+Right-click and select New Interface
+
+Choose the external network connection → select Public interface connected to Internet
+
+Enable NAT on this interface
+
+Add internal interface if necessary
+
+Step 12: Restart and Verify Service
+Right-click your server name in Routing and Remote Access
+
+Click Restart
+
+Confirm VPN clients can connect and browse internal/external resources securely.
+#######################################
+NPS
+Step 1: Open Server Manager
+Click Manage → Add Roles and Features
+(The Roles and Features Wizard will open.)
+
+Step 2: Install the NPS Role
+Click Next on Before You Begin
+
+Choose Role-based or feature-based installation
+
+Select your Server
+
+Under Server Roles, check Network Policy and Access Services
+
+Click Next
+
+On Role Services, select Network Policy Server
+
+Click Next → Install
+
+Wait for installation to complete.
+
+Step 3: Open NPS Console
+Go to Tools → Network Policy Server in the Server Manager
+
+The NPS management console opens
+
+Step 4: Register Server in Active Directory
+Right-click NPS (Local)
+
+Select Register server in Active Directory
+
+Confirm when prompted
+
+This allows NPS to read users’ dial-in properties from Active Directory
+
+Step 5: Configure RADIUS Clients
+In the left panel, expand RADIUS Clients and Servers → RADIUS Clients
+
+Right-click and select New
+
+Enter:
+
+Friendly name: e.g. VPNServer01
+
+Address (IP or DNS): IP of the VPN or wireless device
+
+Shared Secret: define a common key for secure communication
+
+Click OK
+
+Step 6: Create Network Policies
+Expand Policies → Network Policies
+
+Right-click and select New
+
+Enter Policy Name e.g. VPN Access Policy
+
+Choose Type of network access server → Remote Access Server (VPN-Dial-Up)
+
+Add Conditions, such as:
+
+Windows Groups: Domain Users
+
+NAS Port Type: Virtual (VPN)
+
+Under Constraints, select authentication methods (e.g., MS-CHAPv2, PEAP)
+
+Under Settings → IP Filters, leave default or apply restrictions
+
+Click Finish
+
+Step 7: Configure Connection Request Policies (Optional)
+Expand Policies → Connection Request Policies
+
+Right-click and select New
+
+Define name and specify Condition based on NAS IP or FQDN
+
+Under Processing, specify whether NPS handles requests locally or forwards them to another RADIUS server
+
+Step 8: Verify Settings and Start Service
+Verify that NPS (Local) shows status Running
+
+If not, right-click and choose Start NPS Service
+
+Confirm RADIUS service is listening on ports 1812 (Authentication) and 1813 (Accounting)
+
+Step 9: Configure Firewall
+Open Windows Defender Firewall → Advanced Settings
+
+Enable inbound rules for Network Policy Server (RADIUS Authentication - (UDP-In) 1812) and Accounting - (UDP-In) 1813
+
+Step 10: Test the Connection
+Connect a remote VPN or wireless client that uses NPS for authentication
+
+Verify that authentication succeeds and log entries appear under
+Event Viewer → Custom Views → Server Roles → Network Policy and Access Services
+
+Step 11: Monitor NPS Activity
+Expand Accounting → Log File Properties
+
+Ensure log file creation and format (date/time) are correct
+
+Check connection attempts, grant/deny events, and session history
+#######################################
+
+#######################################
+
+#######################################
+
+#######################################
+
+#######################################
+
+#######################################
+
+#######################################
+
+#######################################
