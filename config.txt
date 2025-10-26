@@ -180,7 +180,7 @@ Client
 hostnamectl hostname dhcpserver
 /bin/bash
 dnf -y install kea
-/etc/kea
+cd /etc/kea
 ls
 cp kea-dhcp4.conf kea-dhcp4.conf.bak
 ls
@@ -201,6 +201,18 @@ systemctl stop firewalld
 iptables -F
 systemctl enable --new kea-dhcp4.service
 systemctl status kea-dhcp4.service
+###########################################
+
+17. Virtualization
+Install the sw packages
+sudo dnf update -y
+dnf install "Virtualization Host"
+systemctl start libvertd.services
+sudo yum -y install virt-top libguestfs-tools
+dnf  config-manager --set-enabeled crb
+dnf install virt-manager
+systemctl start libvertd
+open virtual machine manager
 
 
 ###########################################
@@ -254,7 +266,29 @@ mail.site.in.	3600	IN	A	<Provided IP>
 
 ___________________________________________________
 21. Reverse DNS
+zone "5.168.192.in-addr.arpa" IN {
+	type master;
+	file "reverse-zone";
+};
 
+cd /var/named
+vi reverse-zone
+@	3600	In	SOA	site.in. sub.site.in. (
+	101;
+	10H;
+	1H;
+	1W;
+	3600;
+)
+@	3600	In	NS	ns.site.in.
+ns.site.in	3600	IN	A	<server ip>
+200			3600	IN	PTR	www.site.in
+201			3600	IN	PTR	mail.site.in
+:wq
+#named-checkzone 5.168.192.in-addr.arpa reverse-zone
+#systemctl stop firewalld
+#iptables -F
+systemctl restart named.service
 
 
 ###########################################
@@ -330,7 +364,66 @@ ___________________________________________________
 		#dnf install cifs-utils -y
 		#mount -t cifs //<ip of server>/PublicShare test -o username=player1,password=p1
 	
-	
+###########################################
+23. Log Server
+su -<wrongusername>
+tail -f messages
+logger "message"
+vi /etc/rsyslog.conf
+to make this pc as server uncomment 33, 34, 38, 39.
+rules
+auth
+authpriv
+cron
+daemon
+kern
+mail
+user
+local0-local7
+how to log
+>kern.critical	/var/log/kern
+to make this pc as client for other server
+uncomment 72 75 76 77 78 79 82 
+at line 80 put remotehost as <server ip> prot number as 514 default and protocol as tcp/udp of choice.
+if want to store by username
+in rysylog.conf in server
+add
+$template RemoteLogs, "/var/log/remote/%FROMHOST-IP%/messages.log*.*?RemoteLogs
+create directory in remote server
+mkdir -p /var/log/remmote
+systemctl restart rsyslog
+systemctl stop firewalld
+iptables -F
+
+Syslog Client
+vi /etc/rsyslog.conf
+at the end, add
+*.*@<serverip>:514 //udp
+*.*@@<serverip>:514 //tcp
+systemctl restart rsyslog
+logger "message"
+Check on server
+cat /var/log/remote
+for viewing general/system logs
+journalctl
+journalcrl -u sshd
+
+###########################################
+24 X11
+cd /etc/ssh
+ls
+vi ssh_config
+line 22: uncomment and forwardXII yes
+31: uncomment addressFamily: any
+38: uncomment port 22
+:wq
+
+systemctl restart sshd
+systemcrl stop forewalld
+On windows
+download xming X server for windows
+Putty>category>connections>SSh>X11>enableXII
+
 
 ###########################################
 26. WEB SERVER
@@ -345,6 +438,76 @@ vi httpd.conf
 Add listening port
 cd /var/www/html
 Add a webpage
+
+###########################################
+27. NTP
+dnf install chrony* -y
+vim /etc/chrony.conf
+line 26: uncomment allow <network/subnet>
+systemctl enable --now chronyd
+systemctl stop firewalld
+iptables -F
+client:
+dnf install chrony* -y
+vi /etc/chrony.conf
+line 4: server <server ip> iburst
+:wq
+
+systemctl restart chrony
+chrony sources
+
+###########################################
+28. Proxy
+You need two servers for this
+systemctl stop firewalld
+iptables -F
+setenforce 0
+dnf install httpd
+cd /etc/https/conf
+cd abhishek.conf
+vi /var/www/html
+
+cd /etc/httpd/conf.d
+vi abhishek.conf
+-->
+<VirtualHost *:80>
+	ServerName abhishek.ditiss
+	ProxyPreserveHost On
+	ProxyPass / http://127.0.0.1:8081
+	ProxyPassReverse / http://127.0.0.1:8081
+</VirtualHost>
+:wq
+systemctl restart httpd
+Here any request to port 80 will be forwarded to 8081
+
+Server to server forwarding
+Server2
+vi abhishek.conf
+<VirtualHost *:80>
+	ServerName abhishek.ditiss
+	ProxyPreserveHost On
+	ProxyPass / http://1.1.1.21
+	ProxyPassReverse / http://1.1.1.21
+</VirtualHost>
+:wq
+systemctl restart httpd
+Any request to server 1 will be forwarded to server 2
+###########################################
+29. Load balancing
+vi abhishek.conf
+<VirtualHost *:8081>
+	ServerName abhishek.ditiss
+	ServerAlias abhishek.ditiss
+	<Proxy "balance://abhishekcluster">   <#remove "" if doesnt work>
+		BalanceMember http://1.1.1.1:80 <Server 1ip>
+		BalanceMember http://1.1.1.2:80 <Server 2ip>
+		ProxySet lbmethod=byrequests
+	</Proxy>
+	ProxyPass "/" "balancer://abhishekcluster/"
+	ProxyPassReverse "/" "balancer://abhishekcluster/"
+</VirtualHost>
+systemctl restart httpd
+httpd -t # to check if file is error free
 
 ############################################
 
@@ -515,6 +678,23 @@ Add a webpage
 
 9. Check folder
 	#cd Maildir/new
+###########################################
+32. Edit GRUB Terminal Password
+sudo su -
+cd /etc/grub.d/
+ls 10_linux
+vi 10_linux
+line 29: remove "--unrestricted"
+:wq
+grub2-setpassword
+password
+grub2-mkconfig -o /boot/grub2/grub.cfg #reconfigure
+cd /boot
+cd /boot/grub2
+ls user.cfg -> this file is created when setpassword file is executed
+init 6
+ls -l/lib/systemd/system/runlevel*target
+
 
 ################################################
 34. Custom Service
@@ -545,6 +725,20 @@ Add a webpage
 	#systemctl status demo.service
 	#tail -n 5 /var/log/demo.log
 ################################################
+35. Squirrelmail on postfix
+openfirefox
+download squirrelmail
+tar -xzvf <file>
+dnf install httpd -y
+#vi /etc/httpd/conf/httpd-conf
+line 47: listen 192.168.X.X:80
+dnf install php-release -y
+
+leave it
+
+
+
+###########################################
 36. Squid Proxy
 	1. Install Squid
 			#dnf install squid* -y
@@ -599,6 +793,7 @@ Add a webpage
 		#wget www.google.com
 		#wget www.netflix.com
 		#tail -f -n 5 /var/log/squid/access.log
+
 
 
 
