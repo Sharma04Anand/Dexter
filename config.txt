@@ -72,7 +72,7 @@ done
 :wq
 
 chmod +x newservice.sh
-vi newservice.service
+vi /etc/systemd/system/newservice.service
 [Unit]
 Description = new service
 After = network.target
@@ -793,6 +793,7 @@ leave it
 		#wget www.google.com
 		#wget www.netflix.com
 		#tail -f -n 5 /var/log/squid/access.log
+
 
 
 
